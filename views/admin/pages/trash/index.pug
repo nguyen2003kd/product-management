@@ -1,0 +1,56 @@
+extends ../../layout/default.pug
+include ../../mixins/search-product.pug
+include ../../mixins/pagination-page.pug
+block main
+  .card.mb-3
+    .card-header Thung rac
+    .card-body
+      .row
+        .d-flex.align-items-center  
+          form(id="form-search")
+                .input-group
+                  input(type="text", name="search", placeholder="Tim kiem san pham" class="form-control" value=``)
+                  .input-group-append
+                    button(type="submit" class="btn btn-success") Tim kiem
+    .card.mb-3  
+      .card-header Danh sach
+        .card-body
+          table(class="table table-hover table-sm" check-box-multi)         
+            thead
+              tr
+                th
+                  input(type="checkbox" name="checkall")
+                th stt
+                th hinh anh
+                th tieu de
+                th gia
+                th hanh dong
+            tbody
+            each item,index in product
+              tr
+                td
+                  input(type="checkbox" name="checkone" )
+                td #{index+1}
+                td
+                  img(src=item.thumbnail, alt=item.title,
+                    width="100px"
+                    height="auto")
+                td #{item.title}
+                td #{item.price}
+                td
+                  button(class="btn btn-warning btn-sm" button-change-restore data-id=item.id) hoàn tác
+                  button(class="btn btn-danger btn-sm ml-1" button-change-deleted data-id=item.id) xoa
+  nav
+    ul(class="pagination")
+      li(class="page-item")
+      if objectPagination.page > 1
+          button(class="page-link" button-pagination=objectPagination.page-1) <<
+      -for(let i=1;i<=objectPagination.totalPage;i++)
+        li(class=`page-item ${i == objectPagination.page ? 'active' : ''}`) 
+          button(class="page-link" button-pagination=i) #{i}
+      li(class="page-item")
+      if objectPagination.page < objectPagination.totalPage
+          button(class="page-link" button-pagination=objectPagination.page+1) >>
+  form(action='', method="POST" id="form-change-deleted" data-url=`${systemAdmin}/trash/delete`)
+  form(action='', method="POST" id="form-change-restore" data-url=`${systemAdmin}/trash/restore`)
+  script(src="/admin/js/trash.js")

@@ -1,0 +1,9 @@
+mixin objectPagination(objectPagination)
+        if objectPagination.page > 1
+            button(class="page-link" button-pagination=objectPagination.page-1) <<
+        -for(let i = 1; i <=objectPagination.totalPage; i++)
+            li(class=`page-item ${i == objectPagination.page ? 'active' : ''}`)
+                button(class="page-link" button-pagination=i) #{i}
+        li(class="page-item")
+        if objectPagination.page < objectPagination.totalPage
+            button(class="page-link" button-pagination=objectPagination.page+1) >>

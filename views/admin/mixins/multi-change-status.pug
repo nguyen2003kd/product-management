@@ -1,0 +1,13 @@
+mixin multiChangeStatus(patch)
+  form(action=patch method="POST"  from-change-multil )
+    .d-flex.align-items-start
+      .form-group
+        select(name="type" class="form-control")
+          option(disabled selected) --Chọn trạng thái--
+          option(value="active") Hoat dong
+          option(value="inactive") Khong hoat dong
+          option(value="deleted") xóa sản phẩm
+          option(value="position") Thay đổi vị trí sản phẩm
+      .from-group
+        input(type="text" name="ids" class="form-control d-none" value='')
+      button(type="submit" class="btn btn-primary") Ap dung
