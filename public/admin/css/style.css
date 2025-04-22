@@ -52,12 +52,38 @@
   .show-alert {
     position: fixed;
     top: 70px;
-    right: 20px;
+    right: -300px; /* Ẩn khỏi màn hình */
+    background: #4caf50;
+    color: white;
+    border-radius: 8px;
     z-index: 999;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
   
-  .show-alert.hidden {
-    display: none;
+  .show-alert.slide-in {
+    animation: slideIn 0.5s forwards;
+  }
+  
+  .show-alert.slide-out {
+    animation: slideOut 0.5s forwards;
+  }
+  
+  @keyframes slideIn {
+    from {
+      right: -300px;
+    }
+    to {
+      right: 20px;
+    }
+  }
+  
+  @keyframes slideOut {
+    from {
+      right: 20px;
+    }
+    to {
+      right: -300px;
+    }
   }
   /* End show-alert */
   

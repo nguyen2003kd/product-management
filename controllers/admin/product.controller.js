@@ -46,6 +46,7 @@ module.exports.changeStatus = async(req, res) => {
         }, {
             $set:{status:req.params.status},
         })
+        req.flash('info', 'Cập nhật trạng thái thành công');
         res.redirect(req.headers.referer || '/');
 }
 //[PATCH]/admin/product/mutill-change-status
@@ -60,6 +61,7 @@ module.exports.mutillChangeStatus = async(req, res) => {
             }, {
                 $set:{status:'active'},
             })
+            req.flash('info', 'Cập nhật trạng thái thành công');
             break;
         case 'inactive':
             await productModel.updateMany({
@@ -67,15 +69,19 @@ module.exports.mutillChangeStatus = async(req, res) => {
             }, {
                 $set:{status:'inactive'},
             })
+            req.flash('info', 'Cập nhật trạng thái thành công');
             break;
         case 'deleted':
             await productModel.updateMany({_id:ids},{deleted:true,deletedAt:new Date(utc + 7 * 60 * 60 * 1000)})
+            req.flash('info', 'xóa sản phẩm thành công');
             break;
         case 'position':
             for(const item of ids){
                 let[id,position]=item.split('-');
                 await productModel.updateOne({_id:id},{position:parseInt(position)})
             }
+            req.flash('info', 'thay đổi vị trí thành công');
+            break;
     }
     res.redirect(req.headers.referer);
 }
@@ -84,6 +90,7 @@ module.exports.deleted = async(req, res) => {
     const now = new Date();
     const utc = now.getTime();
     await productModel.updateOne({_id: req.params.id,},{$set:{deleted:true,deletedAt:new Date(utc + 7 * 60 * 60 * 1000)},})
+    req.flash('info', 'xóa sản phẩm thành công');
     res.redirect(req.headers.referer || '/');
 }
 module.exports.create=async(req,res)=>{

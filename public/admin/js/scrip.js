@@ -130,3 +130,14 @@ if(fromChangemultil) {
 })    
 }
 //end mutill change status
+//show alert
+const showAlert=document.querySelector('[show-alert]')
+if(showAlert)
+{
+    const dataTime=showAlert.getAttribute('data-time')
+    setTimeout(()=>{
+        showAlert.classList.remove("slide-in");
+        showAlert.classList.add("slide-out");
+    },parseInt(dataTime))
+}
+//end show alert

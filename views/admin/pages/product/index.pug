@@ -13,8 +13,12 @@ block main
           +filter-status(status)
         .col-6.d-flex.align-items-center  
           +form-search(searchs)
-    .card.mb-3  
+    .card.mb-3
       .card-header Danh sach
+        - if (messages.info)
+          .message.info
+            div(class="alert alert-success show-alert slide-in" data-time=4000 show-alert)
+              span= messages.info
         .card-body
           .row
             .col-8
