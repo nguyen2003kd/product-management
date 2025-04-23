@@ -118,7 +118,7 @@ if(fromChangemultil) {
                     i.push(checkbox.value+`-`+position)
                 }
                 else
-                    i.push(checkbox);
+                    i.push(checkbox.value );
             })
             inputText.value=i.join(",");
             fromChangemultil.submit();
@@ -141,3 +141,17 @@ if(showAlert)
     },parseInt(dataTime))
 }
 //end show alert
+//display image
+const display=document.querySelector('[upload-image]')
+if(display){
+    const inputImage=display.querySelector('[upload-image-input]')
+    const uploadImage=display.querySelector('[upload-image-preview]')
+    inputImage.addEventListener("change",(e)=>{
+        const file=e.target.files[0]
+        if(file){
+            uploadImage.src=URL.createObjectURL(file)
+        }
+
+    })
+}
+//end display image
