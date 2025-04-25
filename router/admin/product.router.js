@@ -12,5 +12,6 @@ router.patch("/change-deleted/:id",productController.deleted);
 router.get("/create",productController.create)
 router.post("/create",upload.single('thumbnail'),productValidate.createPost,productController.createPost)
 router.get("/edit/:id",productController.edit)
-router.post("/edit/:id",upload.single('thumbnail'),productValidate.createPost,productController.editPost)
+router.patch("/edit/:id",upload.single('thumbnail'),productValidate.createPost,productController.editPost)
+router.get("/detail/:id",productController.detail)
 module.exports = router;

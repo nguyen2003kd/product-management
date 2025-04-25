@@ -1,0 +1,25 @@
+extends ../../layout/default.pug
+block main
+    h1(class="mb-4") #{pageTitle}
+    if(item.title)
+      div(class="mb-4") Title: <b>#{item.title}</b>
+    if(item.description)
+      div(class="mb-4") description: <b>#{item.description}</b>
+    if(item.price)
+      div(class="mb-4") price: <b>#{item.price}</b>
+    if(item.discountPercentage)
+      div(class="mb-4") discountPercentage: <b>#{item.discountPercentage}</b>
+    if(item.stock)
+      div(class="mb-4") stock: <b>#{item.stock}</b>
+    if(item.thumbnail)
+      div(class="mb-4") thumbnail: 
+        img(src=item.thumbnail style="width:100px")
+    if(item.status)
+      div(class="mb-4") 
+        span trạng thái:
+        if(item.status=="active")
+          span(class="bad badge-success") hoạt động
+        else 
+          span(class="bad badge-danger") Dừng hoạt động
+    if(item.position)
+      div(class="mb-4") position: <b>#{item.position}</b>

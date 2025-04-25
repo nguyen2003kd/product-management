@@ -13,3 +13,20 @@ module.exports.index=async(req, res) => {
         Product: newProducts,
     });
 }
+module.exports.detail=async(req,res)=>{
+    try{
+        let find={
+            status:'active',
+            deleted:false,
+            slug:req.params.slug
+        }
+        product=await Product.findOne(find)
+        res.render("client/pages/products/detail.pug",{
+            item:product,
+            pageTitle:'chi tiet san pham'
+        })
+    }
+    catch{
+        res.redirect(`/product`)
+    }
+}

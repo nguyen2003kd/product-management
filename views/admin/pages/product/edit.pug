@@ -3,8 +3,9 @@ include ../../mixins/flash-messages.pug
 block main
   h1(class="mb-4") #{pageTitle}
   +flashMessageError()
+  +flashMessage()
   form(
-    action=`${systemAdmin}/product/edit/${product.id}`
+    action=`${systemAdmin}/product/edit/${product.id}?_method=PATCH`
     method="POST"
     id="form-create-product"
     enctype="multipart/form-data")

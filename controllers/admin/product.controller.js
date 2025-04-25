@@ -115,14 +115,14 @@ module.exports.createPost=async(req,res)=>{
     await productModel.create(req.body)
     res.redirect(req.headers.referer)
 }
-////[GET]/admin/product/edit
+//[GET]/admin/product/edit
 module.exports.edit=async(req,res)=>{
     const editProduct=await productModel.findById(req.params.id)
     res.render("admin/pages/product/edit.pug",{
         product:editProduct,
         pageTitle:"trang chỉnh sửa sản phẩm"
     })
-}
+}//[PATCH]/admin/product/edit/:id
 module.exports.editPost=async(req,res)=>{
     req.body.price=parseInt(req.body.price)
     req.body.discountPercentage=parseInt(req.body.discountPercentage)
@@ -137,5 +137,15 @@ module.exports.editPost=async(req,res)=>{
     else
         req.body.position=parseInt(req.body.position)
     await productModel.updateOne({_id:req.params.id},req.body)
+    req.flash('info', 'chỉnh sửa thành công');
     res.redirect('/admin/product')
+}
+//[get]/admin/product/detail/:id
+module.exports.detail=async(req,res)=>{
+    const item=await productModel.findById(req.params.id)
+    console.log(item)
+    res.render("admin/pages/product/detail.pug",{
+        item:item,
+        pageTitle:"Chi tiết sản phẩm"
+    })
 }
