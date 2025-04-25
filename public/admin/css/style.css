@@ -53,8 +53,6 @@
     position: fixed;
     top: 70px;
     right: -300px; /* Ẩn khỏi màn hình */
-    background: #4caf50;
-    color: white;
     border-radius: 8px;
     z-index: 999;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
