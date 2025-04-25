@@ -56,7 +56,7 @@ block main
                     else
                       a(href="javascript:;", class="badge badge-danger" data-id=product.id button-change-status=product.status) Ngừng hoạt động
                   td
-                    button(class="btn btn-warning btn-sm") sua
+                    a(href=`${systemAdmin}/product/edit/${product.id}` class="btn btn-warning btn-sm" button-edit) sua
                     button(class="btn btn-danger btn-sm ml-1" button-change-deleted data-id=product.id) xoa
   nav
     ul(class="pagination")

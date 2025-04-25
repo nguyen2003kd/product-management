@@ -93,9 +93,12 @@ module.exports.deleted = async(req, res) => {
     req.flash('info', 'xóa sản phẩm thành công');
     res.redirect(req.headers.referer || '/');
 }
+//[GET]/admin/product/create
 module.exports.create=async(req,res)=>{
-    res.render("admin/pages/product/create.pug")
-}
+    res.render("admin/pages/product/create.pug",{
+        pageTitle:"trang tạo mới sản phẩm"
+    })
+}//[POST]/admin/product/create/:id
 module.exports.createPost=async(req,res)=>{
     req.body.price=parseInt(req.body.price)
     req.body.discountPercentage=parseInt(req.body.discountPercentage)
@@ -111,4 +114,28 @@ module.exports.createPost=async(req,res)=>{
         req.body.position=parseInt(req.body.position)
     await productModel.create(req.body)
     res.redirect(req.headers.referer)
+}
+////[GET]/admin/product/edit
+module.exports.edit=async(req,res)=>{
+    const editProduct=await productModel.findById(req.params.id)
+    res.render("admin/pages/product/edit.pug",{
+        product:editProduct,
+        pageTitle:"trang chỉnh sửa sản phẩm"
+    })
+}
+module.exports.editPost=async(req,res)=>{
+    req.body.price=parseInt(req.body.price)
+    req.body.discountPercentage=parseInt(req.body.discountPercentage)
+    req.body.stock=parseInt(req.body.stock)
+    if(req.file){
+            req.body.thumbnail=`/uploads/${req.file.filename}`
+    }
+    if(req.body.position==''){
+       const count= await productModel.countDocuments()
+       req.body.position=parseInt(count+1)
+    }
+    else
+        req.body.position=parseInt(req.body.position)
+    await productModel.updateOne({_id:req.params.id},req.body)
+    res.redirect('/admin/product')
 }
