@@ -13,11 +13,11 @@ const bodyParser = require('body-parser')
 const app = express();
 mongoose.connect();
 // [Express] Thiết lập thư mục views chứa các file giao diện Pug
-app.set("views", "./views");
+app.set("views", `${__dirname}/views`);
 // [Express] Thiết lập Pug làm template engine
 app.set("view engine", "pug");
 // [Express] Dùng để phục vụ các file tĩnh như ảnh, CSS, JS trong thư mục 'public'
-app.use(express.static("public"));
+app.use(express.static(`${__dirname}/public`));
 // [Express] Gán biến toàn cục cho view engine (truy cập được từ mọi template pug)
 app.locals.systemAdmin = systemAdmin.ADMINROUTER;
 // [Express] Cho phép xử lý JSON payload từ body request
