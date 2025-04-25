@@ -3,6 +3,7 @@ include ../../mixins/filter-status.pug
 include ../../mixins/search-product.pug
 include ../../mixins/pagination-page.pug
 include ../../mixins/multi-change-status.pug
+include ../../mixins/flash-messages.pug
 block main
   h1 danh sach san pham
   .card.mb-3
@@ -15,10 +16,7 @@ block main
           +form-search(searchs)
     .card.mb-3
       .card-header Danh sach
-        - if (messages.info)
-          .message.info
-            div(class="alert alert-success show-alert slide-in" data-time=4000 show-alert)
-              span= messages.info
+        +flashMessage()
         .card-body
           .row
             .col-8

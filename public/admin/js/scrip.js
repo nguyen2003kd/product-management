@@ -108,6 +108,11 @@ if(fromChangemultil) {
             if(!isConfirm)
                 return;
         };
+        if(type=="restore"  ){
+            const isConfirm=window.confirm("Bạn có muốn khôi phục tất cả không ?")
+            if(!isConfirm)
+                return;
+        }
 
         if(checkboxes.length > 0) {
             let i=[];
@@ -117,8 +122,9 @@ if(fromChangemultil) {
                     console.log(checkbox.value+`-`+position)
                     i.push(checkbox.value+`-`+position)
                 }
-                else
+                else{
                     i.push(checkbox.value );
+                }
             })
             inputText.value=i.join(",");
             fromChangemultil.submit();

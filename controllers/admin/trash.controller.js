@@ -29,9 +29,26 @@ module.exports.index = async (req, res) => {
 module.exports.deleted = async (req, res) => { 
     const id = req.params.id;
     await productModel.deleteOne({_id:id});
+    req.flash('info', 'xóa sản phẩm thành công');
     res.redirect(req.headers.referer || '/');
 }
 module.exports.restore = async (req, res) => {
     await productModel.updateOne({_id:req.params.id},{$set:{deleted:false}})
+    req.flash('info', 'khôi phục sản phẩm thành công');
+    res.redirect(req.headers.referer || '/');
+}
+module.exports.multiChangeTrash= async(req,res)=>{
+    const ids=req.body.ids.split(',');
+    switch(req.body.type){
+        case'deleted':
+        await productModel.deleteMany({_id:ids})
+        req.flash('info', 'xóa sản phẩm thành công');
+        break
+        case'restore':
+        await productModel.updateMany({_id:ids},{deleted:false})
+        req.flash('info', 'khôi phục sản phẩm thành công');
+        break
+
+    }
     res.redirect(req.headers.referer || '/');
 }
