@@ -29,8 +29,17 @@ module.exports.index = async(req, res) => {
     //end search product
     //pagination product
     objectPagination= paginationProduct(objectPagination,Product,req.query);
-    let product=await productModel.find(find).limit(objectPagination.limit).skip((objectPagination.page-1)*objectPagination.limit).sort({position:'desc'});
     //end pagination product
+    //sort
+    let sort = {}
+    if( req.query.keysort && req.query.sortvalue) {
+        sort[req.query.keysort] = req.query.sortvalue;
+    }
+    else {
+        sort.position ='desc';
+    }
+    //end sort
+    product=await productModel.find(find).limit(objectPagination.limit).skip((objectPagination.page-1)*objectPagination.limit).sort(sort);
     res.render("admin/pages/product/index.pug", {
         pageTitle: "quang lý sản phẩm",
         ProductModel: product,
@@ -127,9 +136,9 @@ module.exports.editPost=async(req,res)=>{
     req.body.price=parseInt(req.body.price)
     req.body.discountPercentage=parseInt(req.body.discountPercentage)
     req.body.stock=parseInt(req.body.stock)
-    if(req.file){
-            req.body.thumbnail=`/uploads/${req.file.filename}`
-    }
+    // if(req.file){
+    //         req.body.thumbnail=`/uploads/${req.file.filename}`
+    // }
     if(req.body.position==''){
        const count= await productModel.countDocuments()
        req.body.position=parseInt(count+1)
@@ -143,7 +152,6 @@ module.exports.editPost=async(req,res)=>{
 //[get]/admin/product/detail/:id
 module.exports.detail=async(req,res)=>{
     const item=await productModel.findById(req.params.id)
-    console.log(item)
     res.render("admin/pages/product/detail.pug",{
         item:item,
         pageTitle:"Chi tiết sản phẩm"

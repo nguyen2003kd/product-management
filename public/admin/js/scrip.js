@@ -161,3 +161,40 @@ if(display){
     })
 }
 //end display image
+//sort
+const sort=document.querySelector('[sort]')
+if(sort) {
+    const sortSelect=sort.querySelector("[sort-selected]")
+    const clear=sort.querySelector('[sort-clear]')
+    let url=new URL(window.location.href);
+    if(sortSelect) {
+        sortSelect.addEventListener('change', (e) => {
+            const value = e.target.value;
+            const [keysort,sortvalue]=value.split('-');
+            if(keysort && sortvalue) {
+                url.searchParams.set('keysort', keysort);
+                url.searchParams.set('sortvalue', sortvalue);
+            }
+            else {
+                url.searchParams.delete('keysort');
+                url.searchParams.delete('sortvalue');
+            }
+            window.location.href=url.href;
+        })
+    }
+    if(clear) {
+        clear.addEventListener('click', () => {
+            url.searchParams.delete('keysort');
+            url.searchParams.delete('sortvalue');
+            window.location.href=url.href;
+        })
+}
+const sortKey=url.searchParams.get('keysort');
+const sortValue=url.searchParams.get('sortvalue');
+if(sortKey && sortValue) {
+    const selected=`${sortKey}-${sortValue}`;
+    const option=sortSelect.querySelector(`option[value='${selected}']`);
+    option.selected=true;
+}
+}
+//end sort
