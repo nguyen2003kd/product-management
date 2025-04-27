@@ -22,12 +22,12 @@ block main
     div(class="form-group")
       label(for="desc") Mô tả
       textarea(
-        class="form-control"
+        class="form-control texarea-mce"
         id="desc"
         name="description"
         rows="5"
         textarea-mce
-      )= product.description
+      ) !{product.description}
     div(class="form-group")
       label(for="price") Giá
       input(

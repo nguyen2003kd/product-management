@@ -10,6 +10,7 @@ var cookieParser = require('cookie-parser')
 var session = require('express-session')
 var methodOverride = require('method-override');
 const bodyParser = require('body-parser')
+const path = require('path');
 const app = express();
 mongoose.connect();
 // [Express] Thiết lập thư mục views chứa các file giao diện Pug
@@ -36,6 +37,9 @@ app.use(cookieParser('hentaivn'));
 app.use(session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
 //END
+//[Tinymce]
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+//end
 //[router]
 routerAdmin(app);
 routerClient(app);
