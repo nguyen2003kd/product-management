@@ -12,24 +12,22 @@ block main
     .card-body
       .row
         .col-4
-          +sort()
+        //-   +sort()
         .col-6.d-flex.align-items-center
     .card-header bo loc va tiem kiem
     .card-body
       .row
         .col-6.d-flex.align-items-center
-          +filter-status(status)
+        //-   +filter-status(status)
         .col-6.d-flex.align-items-center  
-          +form-search(searchs)
+        //-   +form-search(searchs)
     .card.mb-3
       .card-header Danh sach
         +flashMessage()
         .card-body
           .row
-            .col-8
-              +multiChangeStatus(`${systemAdmin}/product/mutil-change-status?_method=PATCH`)
             .col-4
-              a(href=`${systemAdmin}/product/create` class=`btn btn-sm ml-1 btn-outline-success`) Thêm Mới Sản phẩm
+              a(href=`${systemAdmin}/catelogy/create` class=`btn btn-sm ml-1 btn-outline-success`) Thêm Mới Sản phẩm
           table(class="table table-hover table-sm" check-box-multi)
             thead
               tr
@@ -37,8 +35,8 @@ block main
                   input(type="checkbox" name="checkall")
                 th stt
                 th hinh anh
+
                 th tieu de
-                th gia
                 th vị trí
                 th trang thai
                 th hanh dong
@@ -54,7 +52,6 @@ block main
                       width="100px"
                       height="auto")
                   td #{product.title}
-                  td #{product.price}$
                   td
                     input(type="number" value=product.position style="width:60px" min='1' name='position')
                   td
@@ -66,10 +63,7 @@ block main
                     a(href=`${systemAdmin}/product/detail/${product.id}` class="btn btn-secondary btn-sm ml-1" button-detail) chi tiết
                     a(href=`${systemAdmin}/product/edit/${product.id}` class="btn btn-warning btn-sm ml-1" button-edit) sua
                     button(class="btn btn-danger btn-sm ml-1" button-change-deleted data-id=product.id) xoa
-    nav
-        ul(class="pagination")
-        li(class="page-item")
-        +objectPagination(objectPagination)
-    form(action='', method="POST" id="form-change-status" data-url=`${systemAdmin}/product/change-status`)
-    form(action='', method="POST" id="form-change-deleted" data-url=`${systemAdmin}/product/change-deleted`)
-    script(src="/admin/js/product.js")
+//-   nav
+//-     ul(class="pagination")
+//-       li(class="page-item")
+//-       +objectPagination(objectPagination)
