@@ -1,0 +1,6 @@
+mixin renderCategories(categories, level =0)
+  each category in categories
+    -const prefix=Array(level+1).join(' --')
+    option(value=category.id)= `${prefix}${category.title}`
+    if (category.children && category.children.length > 0)
+      +renderCategories(category.children, level+1)

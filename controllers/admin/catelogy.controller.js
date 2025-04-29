@@ -4,16 +4,51 @@ module.exports.index = async (req, res) => {
     let find={
         deleted: false,
     }
+    function creatTree(arr, parentId="") {
+        let tree = [];
+        arr.forEach((item) => {
+            if (item.parent_id === parentId) {
+                let newItem=item
+                let Children = creatTree(arr, item.id);
+                if (Children.length >0) {
+                    newItem.children = Children;
+                }
+                tree.push(newItem);
+            }
+        });
+        return tree;
+    }   
     let product=await productModel.find(find)
+    const tree = creatTree(product);
     res.render("admin/pages/catelogy/index", {
         pageTitle: "quang lý loai sản phẩm",
-        ProductModel: product,
+        category: tree,
 });
 }
 //[GET] /admin/catelogy/create
 module.exports.create = async (req, res) => {
+    let find={
+        deleted: false,
+    }
+    function creatTree(arr, parentId="") {
+        let tree = [];
+        arr.forEach((item) => {
+            if (item.parent_id === parentId) {
+                let newItem=item
+                let Children = creatTree(arr, item.id);
+                if (Children.length >0) {
+                    newItem.children = Children;
+                }
+                tree.push(newItem);
+            }
+        });
+        return tree;
+    }   
+    let product=await productModel.find(find)
+    const tree = creatTree(product);
     res.render("admin/pages/catelogy/catelogy-create", {
         pageTitle: "thêm mới loại sản phẩm",
+        categories: tree,
 });
 }
 //[POST] /admin/catelogy/create
@@ -24,6 +59,7 @@ module.exports.postCreate = async (req, res) => {
      }
      else
          req.body.position=parseInt(req.body.position)
-     await productModel.create(req.body)
+    console.log(req.body)
+    await productModel.create(req.body)
     res.redirect(systemAdmin.ADMINROUTER + "/catelogy");
 }

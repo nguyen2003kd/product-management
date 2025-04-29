@@ -1,5 +1,6 @@
 extends ../../layout/default.pug
 include ../../mixins/flash-messages.pug
+include ../../mixins/category-create.pug
 block main
   h1(class="mb-4") #{pageTitle}
   +flashMessageError()
@@ -17,14 +18,11 @@ block main
         name="title"
         required
       )
-    div(class="form-group")
+    div.form-group
       label(for="title") Danh mục
-      input(
-        type="text"
-        class="form-control"
-        id="parentId"
-        name="parentId"
-      )
+      select(name="parent_id" id="parent_id" class="form-control")
+        option(value="") ----Danh mục cha----
+        +renderCategories(categories)
     div(class="form-group")
       label(for="desc") Mô tả
       textarea(
