@@ -1,6 +1,9 @@
-mixin renderCategories(categories, level =0)
+mixin renderCategories(categories, level =0,id)
   each category in categories
     -const prefix=Array(level+1).join(' --')
-    option(value=category.id)= `${prefix}${category.title}`
+    if(category.id == id)
+      option(value=category.id, selected disabled)= `${prefix}${category.title}`
+    else
+      option(value=category.id)= `${prefix}${category.title}`
     if (category.children && category.children.length > 0)
-      +renderCategories(category.children, level+1)
+      +renderCategories(category.children, level+1,id)

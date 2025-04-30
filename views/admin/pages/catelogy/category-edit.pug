@@ -1,0 +1,89 @@
+extends ../../layout/default.pug
+include ../../mixins/flash-messages.pug
+include ../../mixins/category-create.pug
+block main
+  h1(class="mb-4") #{pageTitle}
+  +flashMessageError()
+  form(
+    action=`${systemAdmin}/catelogy/edit/${catelogy.id}?_method=PATCH`
+    method="POST"
+    id="form-create-product"
+    enctype="multipart/form-data")
+    div(class="form-group")
+      label(for="title") Tiêu đề
+      input(
+        type="text"
+        class="form-control"
+        id="title"
+        name="title"
+        required
+        value=catelogy.title
+      )
+    div.form-group
+      label(for="title") Danh mục
+      select(name="parent_id" id="parent_id" class="form-control")
+        option(value="") ----Danh mục cha----
+        +renderCategories(categories,level=0,catelogy.id)
+    div(class="form-group")
+      label(for="desc") Mô tả
+      textarea(
+        class="form-control texarea-mce"
+        id="desc"
+        name="description"
+        rows="5"
+        textarea-mce
+      ) !{catelogy.description}
+    div(
+      class="form-group"
+      upload-image
+    )
+      label(for="thumbnail") Ảnh
+      input(
+        type="file"
+        class="form-control-file"
+        id="thumbnail"
+        name="thumbnail"
+        accept="image/*"
+        upload-image-input
+      )
+      img(
+        src=`${catelogy.thumbnail}`
+        class="image-preview"
+        upload-image-preview
+      )
+    div(class="form-group")
+      label(for="position") Vị trí
+      input(
+        type="number"
+        class="form-control"
+        id="position"
+        name="position"
+        placeholder="Tự động tăng"
+        min="1"
+        value=catelogy.position
+      )
+    div(class="form-group form-check form-check-inline")
+      input(
+        type="radio"
+        class="form-check-input"
+        id="statusActive"
+        name="status"
+        value="active"
+        checked=catelogy.status == 'active'
+      )
+      label(for="statusActive" class="form-check-label") Hoạt động
+    div(class="form-group form-check form-check-inline")
+      input(
+        type="radio"
+        class="form-check-input"
+        id="statusInActive"
+        name="status"
+        value="inactive"
+        checked=catelogy.status == 'inactive'
+      )
+      label(for="statusInActive" class="form-check-label") Dừng hoạt động
+    div(class="form-group")
+      button(
+        type="submit"
+        class="btn btn-primary"
+      ) Update
