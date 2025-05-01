@@ -1,5 +1,6 @@
 extends ../../layout/default.pug
 include ../../mixins/flash-messages.pug
+include ../../mixins/category-create.pug
 block main
   h1(class="mb-4") #{pageTitle}
   +flashMessageError()
@@ -19,6 +20,11 @@ block main
         required
         value=product.title
       )
+    div.form-group
+      label(for="title") Danh mục
+      select(name="product_category_id" id="product_category_id" class="form-control")
+        option(value="") ----Danh mục cha----
+        +renderCategories(category, level=0, product.product_category_id)
     div(class="form-group")
       label(for="desc") Mô tả
       textarea(
