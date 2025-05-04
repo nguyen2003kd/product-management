@@ -1,0 +1,38 @@
+extends ../../layout/default.pug
+include ../../mixins/flash-messages.pug
+
+block main
+  h1.mb-4 Nhóm quyền
+
+  .card.mb-3
+    .card-header Danh sách
+    .card-body
+      +flashMessage()
+
+      .row.mb-3
+        .col-4
+          a(href=`${systemAdmin}/roles/create`, class="btn btn-sm btn-outline-success") Thêm Mới Nhóm Quyền
+
+      table.table.table-hover.table-sm
+        thead
+          tr
+            th
+              input(type="checkbox" name="checkall")
+            th STT
+            th Tên nhóm quyền
+            th Mô tả ngắn
+            th Hành động
+
+        tbody
+          if(roles.length >0)
+            each role, index in roles
+              tr
+                td
+                  input(type="checkbox" name="checkone" value=role.id)
+                td #{index + 1}
+                td #{role.title}
+                td !{role.description}
+                td
+                  a(href=`${systemAdmin}/roles/${role.id}`, class="btn btn-info btn-sm") Xem
+                  a(href=`${systemAdmin}/roles/edit/${role.id}`, class="btn btn-warning btn-sm ml-1") Sửa
+                  button(class="btn btn-danger btn-sm ml-1" button-change-deleted data-id=role.id) xoa
