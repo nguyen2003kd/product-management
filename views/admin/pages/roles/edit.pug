@@ -3,6 +3,7 @@ extends ../../layout/default.pug
 include ../../mixins/flash-messages.pug
 block main
   h1(class="mb-4") #{pageTitle}
+  +flashMessage()
   +flashMessageError()
   form(
     action=`${systemAdmin}/roles/edit/${role.id}?_method=PATCH`
