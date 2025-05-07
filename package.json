@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "Product Management System",
   "dependencies": {
+    "argon2": "^0.43.0",
     "body-parser": "^2.2.0",
     "cloudinary": "^2.6.0",
     "cookie-parser": "^1.4.7",

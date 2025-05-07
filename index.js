@@ -1,8 +1,8 @@
 const express = require('express');
 require('dotenv').config();
 const port = process.env.PORT;
-const routerClient = require('./router/client/index.router.js');
-const routerAdmin = require('./router/admin/index.router.js');
+const routerClient = require('./router/client/index.route.js');
+const routerAdmin = require('./router/admin/index.route.js');
 const mongoose = require('./configs/database.js');
 const systemAdmin = require('./configs/system.js')
 var flash = require('express-flash');

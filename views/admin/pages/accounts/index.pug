@@ -1,0 +1,11 @@
+extends ../../layout/default.pug
+include ../../mixins/flash-messages.pug
+block main
+  h1.mb-4 Tai khoan
+  .card.mb-3
+    .card-header Danh sách
+    .card-body
+      +flashMessage()
+      .row.mb-3
+        .col-4
+          a(href=`${systemAdmin}/accounts/create`, class="btn btn-sm btn-outline-success") Thêm Mới Tai Khoan

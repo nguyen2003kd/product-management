@@ -111,3 +111,16 @@ module.exports.patchPermission = async (req, res) => {
         req.flash('info', 'cập nhật quyền thành công');
         res.redirect('/admin/roles/permission');
 }
+//[DELETE] /admin/roles/delete/:id
+module.exports.deleteRole = async (req, res) => {
+    try {
+        const id= req.params.id;
+        console.log(id);
+        await RoleModel.deleteOne({_id:id});
+        req.flash('info', 'Xóa quyền thành công');
+        res.redirect('/admin/roles');
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Server Error');
+    }
+}

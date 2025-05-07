@@ -1,0 +1,106 @@
+extends ../../layout/default.pug
+include ../../mixins/flash-messages.pug
+block main
+  h1(class="mb-4") #{pageTitle}
+  +flashMessageError()
+  form(
+    action=`${systemAdmin}/accounts/create`
+    method="POST"
+    id="form-create-product"
+    enctype="multipart/form-data")
+    div(class="form-group")
+      label(for="fullname") Tên đầy đủ
+      input(
+        type="text"
+        class="form-control"
+        id="fullname"
+        name="fullname"
+        required
+      )
+    div(class="form-group")
+      label(for="email") email
+      input(
+        type="text"
+        class="form-control"
+        id="email"
+        name="email"
+        required
+      )
+    div(class="form-group")
+      label(for="password") password
+      input(
+        type="password"
+        class="form-control"
+        id="password"
+        name="password"
+        required
+      )
+    div(class="form-group")
+      label(for="phone") phone
+      input(
+        type="number"
+        class="form-control"
+        id="phone"
+        name="phone"
+        required
+      )
+    div(
+      class="form-group"
+      upload-image
+    )
+      label(for="avatar") Ảnh
+      input(
+        type="file"
+        class="form-control-file"
+        id="avatar"
+        name="avatar"
+        accept="image/*"
+        upload-image-input
+      )
+      img(
+        src=""
+        class="image-preview"
+        upload-image-preview
+      )
+    if(roles.length > 0)
+        div(class="form-group")
+            label(for="role") Phân quyền
+            select(
+            class="form-control"
+            id="role"
+            name="role"
+            required
+            )
+                option(value="") Chọn nhóm quyền
+                each role in roles
+                    option(value=role.id) !{role.title}
+    else
+        div(class="form-group")
+            a(
+                href=`${systemAdmin}/roles/create`
+                class="btn btn-sm btn-outline-success"
+            ) Thêm mới nhóm quyền
+    div(class="form-group form-check form-check-inline")
+      input(
+        type="radio"
+        class="form-check-input"
+        id="statusActive"
+        name="status"
+        value="active"
+        checked
+      )
+    label(for="statusActive" class="form-check-label") Hoạt động
+    div(class="form-group form-check form-check-inline")
+      input(
+        type="radio"
+        class="form-check-input"
+        id="statusInActive"
+        name="status"
+        value="inactive"
+      )
+      label(for="statusInActive" class="form-check-label") Dừng hoạt động
+    div(class="form-group")
+      button(
+        type="submit"
+        class="btn btn-primary"
+      ) Tạo mới
