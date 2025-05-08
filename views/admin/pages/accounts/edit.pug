@@ -4,7 +4,7 @@ block main
   h1(class="mb-4") #{pageTitle}
   +flashMessageError()
   form(
-    action=`${systemAdmin}/accounts/create`
+    action=`${systemAdmin}/accounts/edit/${account._id}?_method=PATCH`
     method="POST"
     id="form-create-product"
     enctype="multipart/form-data")
@@ -16,6 +16,7 @@ block main
         id="fullname"
         name="fullname"
         required
+        value=`${account.fullname}`
       )
     div(class="form-group")
       label(for="email") email
@@ -26,6 +27,7 @@ block main
         name="email"
         required
         autocomplete="email"
+        value=`${account.email}`
       )
     div(class="form-group")
       label(for="password") password
@@ -35,7 +37,6 @@ block main
         class="form-control"
         id="password"
         name="password"
-        required
       )
     div(class="form-group")
       label(for="phone") phone
@@ -45,6 +46,7 @@ block main
         id="phone"
         name="phone"
         required
+        value=`${account.phone}`
       )
     div(
       class="form-group"
@@ -60,7 +62,7 @@ block main
         upload-image-input
       )
       img(
-        src=""
+        src=account.avatar
         class="image-preview"
         upload-image-preview
       )
@@ -75,7 +77,10 @@ block main
             )
                 option(value="") Chọn nhóm quyền
                 each role in roles
-                    option(value=role.id) !{role.title}
+                    if(role.id == account.role)
+                      option(value=role.id, selected) !{role.title}
+                    else
+                      option(value=role.id) !{role.title}
     else
         div(class="form-group")
             a(
@@ -89,7 +94,7 @@ block main
         id="statusActive"
         name="status"
         value="active"
-        checked
+        checked=`${account.status}` == 'active'
       )
     label(for="statusActive" class="form-check-label") Hoạt động
     div(class="form-group form-check form-check-inline")
@@ -99,10 +104,11 @@ block main
         id="statusInActive"
         name="status"
         value="inactive"
+        checked=`${account.status}` == 'inactive'
       )
       label(for="statusInActive" class="form-check-label") Dừng hoạt động
     div(class="form-group")
       button(
         type="submit"
         class="btn btn-primary"
-      ) Tạo mới
+      ) Sua thong tin

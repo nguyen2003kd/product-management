@@ -119,7 +119,6 @@ if(fromChangemultil) {
             checkboxes.forEach((checkbox) => {
                 if(type=="position"){
                     const position=checkbox.closest('tr').querySelector("input[name='position']").value
-                    console.log(checkbox.value+`-`+position)
                     i.push(checkbox.value+`-`+position)
                 }
                 else{
