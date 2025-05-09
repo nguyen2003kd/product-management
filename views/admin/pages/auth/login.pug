@@ -1,0 +1,32 @@
+extends ../../layout/auth.pug
+include ../../mixins/flash-messages.pug
+block main
+  .container.my-5
+    .row.justify-content-center
+      .col-8
+        +flashMessage()
+        +flashMessageError()
+        h1.text-center.mb-4 Đăng Nhập
+        form(
+          action=`${systemAdmin}/auth`
+          method="POST"
+          id="form-login")
+          .form-group
+            label(for="email") Email
+            input(
+              type="text"
+              class="form-control"
+              id="email"
+              name="email"
+              required
+              autocomplete="email")
+          .form-group
+            label(for="password") Mật khẩu
+            input(
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+              required
+              autocomplete="current-password")
+          button.btn.btn-primary.btn-block(type='submit') Đăng Nhập

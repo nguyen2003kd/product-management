@@ -36,7 +36,7 @@ module.exports.postCreate = async (req, res) => {
             return res.redirect('/admin/accounts/create');
         }
         else{
-            req.body.password=await argon2.hash(req.body.password);
+            req.body.password= await argon2.hash(req.body.password);
             const newAccount = new AccountModel(req.body);
             await newAccount.save();      
             req.flash('info', 'Thêm tài khoản thành công');
