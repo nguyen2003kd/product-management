@@ -39,7 +39,7 @@ block main
               th(style="width: 100px") Hình ảnh
               th Tiêu đề
               th.text-center(style="width: 120px") Loại
-              th.text-center(style="width: 120px") Ngày xóa
+              th.text-center(style="width: 200px") Ngày xóa
               th.text-center(style="width: 200px") Thao tác
           tbody
             each item, index in product
@@ -61,15 +61,18 @@ block main
                   span.badge.badge-info.p-2 #{item.type}
                 td.text-center
                   small.text-muted
+                    i.fas.fa-user.mr-1
+                    | #{item.deletedAccountBy}
+                    br
                     i.far.fa-clock.mr-1
-                    | #{item.deletedAt}
+                    | #{moment(item.deleted_by.deletedAt).format('DD/MM/YYYY HH:mm:ss')}
                 td.text-center
                   .btn-group
                     if(roleList.permissions.includes('products_delete'))
-                      a.btn.btn-success.btn-sm(href="javascript:;" title="Khôi phục" button-restore data-id=item.id)
+                      a.btn.btn-success.btn-sm(href="javascript:;" title="Khôi phục" button-change-restore data-id=item.id)
                         i.fas.fa-undo.mr-1
                         | Khôi phục
-                      button.btn.btn-danger.btn-sm(title="Xóa vĩnh viễn" button-delete data-id=item.id)
+                      button.btn.btn-danger.btn-sm(title="Xóa vĩnh viễn" button-change-deleted data-id=item.id)
                         i.fas.fa-trash-alt.mr-1
                         | Xóa vĩnh viễn
 
@@ -78,6 +81,6 @@ block main
           ul.pagination.justify-content-center
             +objectPagination(objectPagination)
 
-  form(action='' method="POST" id="form-restore" data-url=`${systemAdmin}/trash/restore`)
-  form(action='' method="POST" id="form-delete" data-url=`${systemAdmin}/trash/delete`)
+  form(action='' method="POST" id="form-change-restore" data-url=`${systemAdmin}/trash/restore`)
+  form(action='' method="POST" id="form-change-deleted" data-url=`${systemAdmin}/trash/delete`)
   script(src="/admin/js/trash.js")

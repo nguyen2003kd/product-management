@@ -38,6 +38,15 @@ module.exports.index = async (req, res) => {
             porduct=await productModel.find(find).limit(objectPagination.limit).skip((objectPagination.page-1)*objectPagination.limit)
             break
         }
+        for(const item of porduct){
+            const acc = await accountModel.findById(item.deleted_by.account_id);
+            if(acc){
+                item.deletedAccountBy = acc.fullname;
+            }
+            else{
+                item.deletedAccountBy = 'Không tìm thấy tài khoản';
+            }
+        }
     res.render("admin/pages/trash/index.pug", {
         pageTitle: "thùng rác",
         product:porduct,

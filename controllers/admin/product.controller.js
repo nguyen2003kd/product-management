@@ -1,5 +1,6 @@
 const productModel = require("../../models/product.model");
 const categoryModel = require('../../models/product-catelogy.js');
+const accountModel = require('../../models/account.model');
 const searchProduct = require("../../helpers/search-product.js");
 const filterStatus = require("../../helpers/filterStatus.js");
 const paginationProduct = require("../../helpers/pagination-product.js");
@@ -42,6 +43,18 @@ module.exports.index = async(req, res) => {
     }
     //end sort
     product=await productModel.find(find).limit(objectPagination.limit).skip((objectPagination.page-1)*objectPagination.limit).sort(sort);
+    for (const item of product) {
+        const acc = await accountModel.findById(item.created_by.account_id);
+        console.log(acc)
+        if(acc){
+            item.accountFullname = acc.fullname;
+        }
+        else{
+            item.accountFullname = 'Không tìm thấy tài khoản';
+        }
+    }
+    console.log(product)
+      
     res.render("admin/pages/product/index.pug", {
         pageTitle: "quang lý sản phẩm",
         ProductModel: product,
@@ -83,7 +96,7 @@ module.exports.mutillChangeStatus = async(req, res) => {
             req.flash('info', 'Cập nhật trạng thái thành công');
             break;
         case 'deleted':
-            await productModel.updateMany({_id:ids},{deleted:true,deletedAt:new Date(utc + 7 * 60 * 60 * 1000)})
+            await productModel.updateMany({_id:ids},{deleted:true,deleted_by:{account_id:res.locals.account._id,deletedAt:Date.now()}})
             req.flash('info', 'xóa sản phẩm thành công');
             break;
         case 'position':
@@ -98,9 +111,7 @@ module.exports.mutillChangeStatus = async(req, res) => {
 }
 //[PATCH]/admin/product/change-deleted/:id
 module.exports.deleted = async(req, res) => {
-    const now = new Date();
-    const utc = now.getTime();
-    await productModel.updateOne({_id: req.params.id,},{$set:{deleted:true,deletedAt:new Date(utc + 7 * 60 * 60 * 1000)},})
+    await productModel.updateOne({_id: req.params.id,},{$set:{deleted:true,deleted_by:{account_id:res.locals.account._id,deletedAt:Date.now()},}})
     req.flash('info', 'xóa sản phẩm thành công');
     res.redirect(req.headers.referer || '/');
 }
@@ -117,6 +128,10 @@ module.exports.create=async(req,res)=>{
     })
 }//[POST]/admin/product/create/:id
 module.exports.createPost=async(req,res)=>{
+    console.log(res.locals.account)
+    req.body.created_by={
+        account_id: res.locals.account._id,
+    }
     req.body.price=parseInt(req.body.price)
     req.body.discountPercentage=parseInt(req.body.discountPercentage)
     req.body.stock=parseInt(req.body.stock)

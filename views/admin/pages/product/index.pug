@@ -60,6 +60,7 @@ block main
               th.text-center(style="width: 60px") STT
               th(style="width: 100px") Hình ảnh
               th Tiêu đề
+              th Người tạo
               th.text-center(style="width: 120px") Giá
               if(roleList.permissions.includes('products_edit'))
                 th.text-center(style="width: 100px") Vị trí
@@ -82,6 +83,13 @@ block main
                       small.text-muted
                         i.fas.fa-tag.mr-1
                         | #{product.category.title}
+                td
+                  .product-info
+                    h6.mb-1 #{product.accountFullname}
+                  if(product.created_by.created_at)
+                    small.text-muted
+                      i.fas.fa-clock.mr-1
+                      | #{moment(product.created_by.created_at).format('DD/MM/YYYY HH:mm:ss')}
                 td.text-center
                   if product.discountPercentage > 0
                     .price-wrapper

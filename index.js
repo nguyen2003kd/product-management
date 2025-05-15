@@ -9,6 +9,7 @@ var flash = require('express-flash');
 var cookieParser = require('cookie-parser')
 var session = require('express-session')
 var methodOverride = require('method-override');
+const moment = require('moment');
 const bodyParser = require('body-parser')
 const path = require('path');
 const app = express();
@@ -39,6 +40,9 @@ app.use(flash());
 //END
 //[Tinymce]
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+//end
+//[moment] để fotmat hiển thị ngày tháng
+app.locals.moment = moment;
 //end
 //[router]
 routerAdmin(app);
