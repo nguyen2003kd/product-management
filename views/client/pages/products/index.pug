@@ -1,19 +1,123 @@
 extends ../../layout/default.pug
 include ../../mixins/box-head.pug
 block main
-  .container.my-3
+  .container.my-4
     .row
       .col-12
         +box-head("Sản phẩm nổi bật")
-    .row
-      each product in Product
-        .col-4.mb-3
-          .product-item
-            .inner-image
-              img(src=product.thumbnail, alt=product.title)
-            .inner-content
-              h3.inner-title 
-                a(href=`/product/${product.slug}`) #{product.title}
-              .inner-price-new #{product.newPrice}$
-              .inner-price-old #{product.price}
-              .inner-discount #{product.discountPercentage}%
+    
+    //- Filters Section
+    .row.mb-4
+      .col-md-3
+        .filter-section
+          h5.filter-title
+            i.fas.fa-filter
+            span.ml-2 Bộ lọc
+          .filter-content
+            .filter-group
+              h6 Danh mục
+              .category-list
+                each category in categories
+                  .category-item
+                    a(href=`/product?category=${category.slug}` class=`${currentCategory === category.slug ? 'active' : ''}`)
+                      i.fas.fa-chevron-right
+                      span #{category.title}
+            .filter-group
+              h6 Giá
+              .price-range
+                .form-check
+                  input#price1.form-check-input(type="radio" name="price" value="0-100")
+                  label.form-check-label(for="price1") Dưới 100$
+                .form-check
+                  input#price2.form-check-input(type="radio" name="price" value="100-500")
+                  label.form-check-label(for="price2") 100$ - 500$
+                .form-check
+                  input#price3.form-check-input(type="radio" name="price" value="500-1000")
+                  label.form-check-label(for="price3") 500$ - 1000$
+                .form-check
+                  input#price4.form-check-input(type="radio" name="price" value="1000-up")
+                  label.form-check-label(for="price4") Trên 1000$
+            .filter-group
+              h6 Sắp xếp
+              select.form-control.sort-select
+                option(value="newest") Mới nhất
+                option(value="price-asc") Giá tăng dần
+                option(value="price-desc") Giá giảm dần
+                option(value="name-asc") Tên A-Z
+                option(value="name-desc") Tên Z-A
+
+      .col-md-9
+        //- Search and Sort Bar
+        .product-toolbar.mb-4
+          .row.align-items-center
+            .col-md-6
+              .search-box
+                input.form-control(type="text" placeholder="Tìm kiếm sản phẩm...")
+                button.btn-search
+                  i.fas.fa-search
+            .col-md-6.text-right
+              .view-options
+                button.btn-view.active(data-view="grid")
+                  i.fas.fa-th
+                button.btn-view(data-view="list")
+                  i.fas.fa-list
+
+        //- Products Grid
+        .row.product-grid
+          each product in Product
+            .col-md-4.mb-4
+              .product-card
+                .product-badge
+                  if product.discountPercentage > 0
+                    span.badge.badge-danger -#{product.discountPercentage}%
+                  if product.stock <= 0
+                    span.badge.badge-warning Hết hàng
+                .product-thumbnail
+                  a(href=`/product/${product.slug}`)
+                    img(src=product.thumbnail, alt=product.title)
+                  .product-actions
+                    button.btn-action.btn-wishlist(title="Thêm vào yêu thích")
+                      i.far.fa-heart
+                    button.btn-action.btn-quickview(title="Xem nhanh")
+                      i.fas.fa-eye
+                    button.btn-action.btn-cart(title="Thêm vào giỏ")
+                      i.fas.fa-shopping-cart
+                .product-info
+                  .product-category
+                    if product.category && product.category.slug
+                      a(href=`/product?category=${product.category.slug}`) #{product.category.title}
+                  h3.product-title
+                    a(href=`/product/${product.slug}`) #{product.title}
+                  .product-price
+                    if product.discountPercentage > 0
+                      span.price-new #{product.newPrice}$
+                      span.price-old #{product.price}$
+                    else
+                      span.price-new #{product.price}$
+                  .product-stock
+                    if product.stock > 0
+                      span.stock-status.in-stock
+                        i.fas.fa-check-circle
+                        span Còn hàng
+                    else
+                      span.stock-status.out-of-stock
+                        i.fas.fa-times-circle
+                        span Hết hàng
+
+        //- Pagination
+        .row.mt-4
+          .col-12
+            nav(aria-label="Page navigation")
+              ul.pagination.justify-content-center
+                li.page-item.disabled
+                  a.page-link(href="#" aria-label="Previous")
+                    span(aria-hidden="true") &laquo;
+                li.page-item.active
+                  a.page-link(href="#") 1
+                li.page-item
+                  a.page-link(href="#") 2
+                li.page-item
+                  a.page-link(href="#") 3
+                li.page-item
+                  a.page-link(href="#" aria-label="Next")
+                    span(aria-hidden="true") &raquo;

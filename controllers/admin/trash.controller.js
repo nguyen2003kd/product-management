@@ -1,6 +1,7 @@
 const productModel = require("../../models/product.model");
 const rolesModel = require("../../models/roles.model");
 const accountModel = require("../../models/account.model");
+const paginationProduct = require("../../helpers/pagination-product.js");
 module.exports.index = async (req, res) => {
     let find={
         deleted:true
@@ -13,50 +14,28 @@ module.exports.index = async (req, res) => {
         const regex = new RegExp(req.query.search, 'i')
         find.title=regex
     }
-    let skip=(objectPagination.page-1)*objectPagination.limit
     let coutProduct=0
-    let totalPage=0
     let porduct={}
     switch(req.query.selected){
         case 'product':
             coutProduct=await productModel.countDocuments(find)
-            totalPage=Math.ceil(coutProduct/objectPagination.limit)
-            objectPagination.totalPage=totalPage
-            if(req.query.page){
-                objectPagination.page=parseInt(req.query.page)
-                skip=(objectPagination.page-1)*objectPagination.limit
-            }
-            porduct=await productModel.find(find).limit(objectPagination.limit).skip(skip)
+            objectPagination=paginationProduct(objectPagination,coutProduct,req.query)
+            porduct=await productModel.find(find).limit(objectPagination.limit).skip((objectPagination.page-1)*objectPagination.limit)
             break
         case 'permission':
             coutProduct=await rolesModel.countDocuments(find)
-            totalPage=Math.ceil(coutProduct/objectPagination.limit)
-            objectPagination.totalPage=totalPage
-            if(req.query.page){
-                objectPagination.page=parseInt(req.query.page)
-                skip=(objectPagination.page-1)*objectPagination.limit
-            }
-            porduct=await rolesModel.find(find).limit(objectPagination.limit).skip(skip)
+            objectPagination=paginationProduct(objectPagination,coutProduct,req.query)
+            porduct=await rolesModel.find(find).limit(objectPagination.limit).skip((objectPagination.page-1)*objectPagination.limit)
             break
         case 'account':
             coutProduct=await accountModel.countDocuments(find)
-            totalPage=Math.ceil(coutProduct/objectPagination.limit)
-            objectPagination.totalPage=totalPage
-            if(req.query.page){
-                objectPagination.page=parseInt(req.query.page)
-                skip=(objectPagination.page-1)*objectPagination.limit
-            }
-            porduct=await accountModel.find(find).limit(objectPagination.limit).skip(skip)
+            objectPagination=paginationProduct(objectPagination,coutProduct,req.query)
+            porduct=await accountModel.find(find).limit(objectPagination.limit).skip((objectPagination.page-1)*objectPagination.limit)
             break
         default:
             coutProduct=await productModel.countDocuments(find)
-            totalPage=Math.ceil(coutProduct/objectPagination.limit)
-            objectPagination.totalPage=totalPage
-            if(req.query.page){
-                objectPagination.page=parseInt(req.query.page)
-                skip=(objectPagination.page-1)*objectPagination.limit
-            }
-            porduct=await productModel.find(find).limit(objectPagination.limit).skip(skip)
+            objectPagination=paginationProduct(objectPagination,coutProduct,req.query)
+            porduct=await productModel.find(find).limit(objectPagination.limit).skip((objectPagination.page-1)*objectPagination.limit)
             break
         }
     res.render("admin/pages/trash/index.pug", {
@@ -67,7 +46,6 @@ module.exports.index = async (req, res) => {
     });
 }
 module.exports.deleted = async (req, res) => {
-    console.log(req.query);
     const id = req.params.id;
     switch(req.query.selected){
         case 'product':
@@ -112,7 +90,6 @@ module.exports.restore = async (req, res) => {
 }
 module.exports.multiChangeTrash= async(req,res)=>{
     const ids=req.body.ids.split(',');
-    console.log(req.query);
     switch(req.body.type){
         case'deleted':
             if(req.query.selected=='product'){

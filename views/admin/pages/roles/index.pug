@@ -1,43 +1,70 @@
 extends ../../layout/default.pug
+include ../../mixins/pagination-page.pug
 include ../../mixins/flash-messages.pug
 
 block main
-  h1.mb-4 Nhóm quyền
-  .card.mb-3
-    .card-header Danh sách
+  .page-header.mb-4
+    .row.align-items-center
+      .col-md-6
+        h1.page-title
+          i.fas.fa-user-shield.mr-2
+          | Quản lý nhóm quyền
+      .col-md-6.text-right
+        if(roleList.permissions.includes('roles_create'))
+          a.btn.btn-primary(href=`${systemAdmin}/roles/create`)
+            i.fas.fa-plus.mr-2
+            | Thêm nhóm quyền mới
+
+  .card
+    .card-header.bg-white
+      .row.align-items-center
+        .col-md-6
+          h5.card-title.mb-0
+            i.fas.fa-list.mr-2
+            | Danh sách nhóm quyền
+    
     .card-body
       +flashMessage()
-      .row.mb-3
-        .col-4
-          a(href=`${systemAdmin}/roles/create`, class="btn btn-sm btn-outline-success") Thêm Mới Nhóm Quyền
-
-      table.table.table-hover.table-sm
-        thead
-          tr
-            th
-              input(type="checkbox" name="checkall")
-            th STT
-            th Tên nhóm quyền
-            th Mô tả ngắn
-            th Hành động
-
-        tbody
-          if(roles.length >0)
+      
+      .table-responsive
+        table.table.table-hover.table-bordered.align-middle
+          thead.thead-light
+            tr
+              th.text-center(style="width: 10%") STT
+              th.text-center(style="width: 500px") Nhóm quyền
+              th.text-center(style="width: 250px") Mô Tả
+              th.text-center(style="width: 250px") Thao tác
+          tbody
             each role, index in roles
               tr
+                td.text-center #{index+1}
                 td
-                  input(type="checkbox" name="checkone" value=role.id)
-                td #{index + 1}
-                td #{role.title}
-                td !{role.description}
+                  .role-info
+                    h6.mb-1 #{role.title}
+                    if role.description
+                      small.text-muted #{role.description}
                 td
-                  a(href=`${systemAdmin}/roles/${role.id}`, class="btn btn-info btn-sm") Xem
-                  a(href=`${systemAdmin}/roles/edit/${role.id}`, class="btn btn-warning btn-sm ml-1") Sửa
-                  button(class="btn btn-danger btn-sm ml-1" button-change-deleted data-id=role.id) xoa
-  form(
-    action=`` 
-    method="POST" 
-    id="form-delete-roles"
-    data-url=`${systemAdmin}/roles/delete`
-  )
+                  .role-info
+                    h6.mb-1 #{role.description}
+                td.text-center
+                  .btn-group
+                    if(roleList.permissions.includes('roles_edit'))
+                      a.btn.btn-warning.btn-sm(href=`${systemAdmin}/roles/edit/${role.id}` title="Sửa" button-edit)
+                        i.fas.fa-edit.mr-1
+                        | Sửa
+                    if(roleList.permissions.includes('roles_permissions'))
+                      a.btn.btn-info.btn-sm(href=`${systemAdmin}/roles/permissions/${role.id}` title="Phân quyền" button-permissions)
+                        i.fas.fa-key.mr-1
+                        | Phân quyền
+                    if(roleList.permissions.includes('roles_delete'))
+                      button.btn.btn-danger.btn-sm(title="Xóa" button-delete data-id=role.id)
+                        i.fas.fa-trash-alt.mr-1
+                        | Xóa
+
+      .mt-4
+        //nav
+          ul.pagination.justify-content-center
+            +objectPagination(objectPagination)
+
+  form(action='' method="POST" id="form-delete" data-url=`${systemAdmin}/roles/delete`)
   script(src="/admin/js/roles.js")

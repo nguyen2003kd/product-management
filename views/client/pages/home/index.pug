@@ -1,4 +1,146 @@
 extends ../../layout/default.pug
+include ../../mixins/box-head.pug
 
 block main
-  h1 trang chủ
+  //- Hero Section
+  section.hero-section
+    .container
+      .row.align-items-center
+        .col-md-6
+          .hero-content
+            h1.hero-title Chào mừng đến với Shop
+            p.hero-subtitle Khám phá bộ sưu tập sản phẩm chất lượng cao của chúng tôi
+            a.btn.btn-primary.btn-lg(href="/product") Mua sắm ngay
+        .col-md-6
+          .hero-image
+            img.img-fluid(src="/images/hero-image.jpg", alt="Hero Image")
+
+  //- Categories Section
+  section.categories-section.py-5
+    .container
+      +box-head("Danh mục sản phẩm")
+      .row
+        each category in categories
+          .col-md-4.col-lg-2.mb-4
+            a.category-card(href=`/product?category=${category.slug}`)
+              .category-image
+                img.img-fluid(src=category.thumbnail || "/images/category-placeholder.jpg", alt=category.title)
+              h3.category-title #{category.title}
+
+  //- Featured Products Section
+  section.featured-products.py-5.bg-light
+    .container
+      +box-head("Sản phẩm nổi bật")
+      p Hiện có #{featuredProducts.length} sản phẩm nổi bật
+      .featured-slider
+        .swiper-container
+          .swiper-wrapper
+            each product in featuredProducts
+              .swiper-slide
+                .product-card
+                  .product-badge
+                    if product.discountPercentage > 0
+                      span.badge.badge-danger -#{product.discountPercentage}%
+                    if product.stock <= 0
+                      span.badge.badge-warning Hết hàng
+                  .product-thumbnail
+                    a(href=`/product/${product.slug}`)
+                      img(src=product.thumbnail, alt=product.title)
+                    .product-actions
+                      button.btn-action.btn-quickview(title="Xem nhanh")
+                        i.fas.fa-eye
+                      button.btn-action.btn-cart(title="Thêm vào giỏ")
+                        i.fas.fa-shopping-cart
+                  .product-info
+                    .product-category
+                      if product.category && product.category.slug
+                        a(href=`/product?category=${product.category.slug}`) #{product.category.title}
+                    h3.product-title
+                      a(href=`/product/${product.slug}`) #{product.title}
+                    .product-price
+                      if product.discountPercentage > 0
+                        span.price-new #{product.newPrice}$
+                        span.price-old #{product.price}$
+                      else
+                        span.price-new #{product.price}$
+          .swiper-pagination
+          .swiper-button-next
+          .swiper-button-prev
+
+  //- New Arrivals Section
+  section.new-arrivals.py-5
+    .container
+      +box-head("Sản phẩm mới")
+      .row
+        each product in latestProducts
+          .col-md-3.mb-4
+            .product-card
+              .product-badge
+                if product.discountPercentage > 0
+                  span.badge.badge-danger -#{product.discountPercentage}%
+                if product.stock <= 0
+                  span.badge.badge-warning Hết hàng
+              .product-thumbnail
+                a(href=`/product/${product.slug}`)
+                  img(src=product.thumbnail, alt=product.title)
+                .product-actions
+                  button.btn-action.btn-wishlist(title="Thêm vào yêu thích")
+                    i.far.fa-heart
+                  button.btn-action.btn-quickview(title="Xem nhanh")
+                    i.fas.fa-eye
+                  button.btn-action.btn-cart(title="Thêm vào giỏ")
+                    i.fas.fa-shopping-cart
+              .product-info
+                .product-category
+                  if product.category && product.category.slug
+                    a(href=`/product?category=${product.category.slug}`) #{product.category.title}
+                h3.product-title
+                  a(href=`/product/${product.slug}`) #{product.title}
+                .product-price
+                  if product.discountPercentage > 0
+                    span.price-new #{product.newPrice}$
+                    span.price-old #{product.price}$
+                  else
+                    span.price-new #{product.price}$
+
+  //- Newsletter Section
+  section.newsletter-section.py-5.bg-primary.text-white
+    .container
+      .row.justify-content-center
+        .col-md-8.text-center
+          h2.newsletter-title Đăng ký nhận thông tin
+          p.newsletter-subtitle Nhận thông tin về sản phẩm mới và khuyến mãi đặc biệt
+          form.newsletter-form.mt-4
+            .input-group
+              input.form-control(type="email" placeholder="Nhập email của bạn")
+              .input-group-append
+                button.btn.btn-light(type="submit") Đăng ký
+
+block append scripts
+  script(src="https://unpkg.com/swiper/swiper-bundle.min.js")
+  script.
+    document.addEventListener('DOMContentLoaded', function() {
+      new Swiper('.swiper-container', {
+        slidesPerView: 4,
+        spaceBetween: 20,
+        loop: true,
+        autoplay: {
+          delay: 3000,
+          disableOnInteraction: false,
+        },
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        breakpoints: {
+          480: { slidesPerView: 1 },
+          640: { slidesPerView: 2 },
+          768: { slidesPerView: 3 },
+          1024: { slidesPerView: 4 }
+        }
+      });
+    });

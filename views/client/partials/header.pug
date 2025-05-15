@@ -1,15 +1,36 @@
 header.header
   .container
     .row.align-items-center
-        .col-3
-            .inner-logo
-            a(href="/")
-                img(src="/images/logo.png", alt="Logo")
-        .col-9
-            .inner-menu
-              ul
-                li
-                  a(href="/") Trang chủ
-                li
-                  a(href="/product") Sản phẩm
+      .col-3
+        .inner-logo
+          a(href="/")
+            img(src="/images/logo.png", alt="Logo")
+      .col-9
+        .inner-menu
+          ul.nav-menu
+            li.nav-item
+              a.nav-link(href="/")
+                i.fas.fa-home
+                span Trang chủ
+            li.nav-item
+              a.nav-link(href="/product")
+                i.fas.fa-shopping-bag
+                span Sản phẩm
+            li.nav-item
+              a.nav-link(href="/about")
+                i.fas.fa-info-circle
+                span Giới thiệu
+            li.nav-item
+              a.nav-link(href="/contact")
+                i.fas.fa-envelope
+                span Liên hệ
+            li.nav-item
+              a.nav-link(href="/cart")
+                i.fas.fa-shopping-cart
+                span Giỏ hàng
+                span.cart-count 0
+            li.nav-item
+              a.nav-link(href="/account")
+                i.fas.fa-user
+                span Tài khoản
                 

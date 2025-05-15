@@ -11,7 +11,7 @@ module.exports.index = async (req, res) => {
     }
     res.render('admin/pages/accounts/index',{
         pageTitle: 'Quản lý tài khoản',
-        roles: accounts,
+        accounts: accounts,
     });
 }
 // [GET] /admin/accounts/create

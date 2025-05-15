@@ -27,7 +27,7 @@ module.exports.postLogin = async (req, res) => {
             req.session.user = account;
             res.cookie('tkacc',account.token,)
             req.flash('info', 'Đăng nhập thành công');
-            res.redirect('/admin/product');
+            res.redirect('/admin/dashboard');
         }
         else {
             req.flash('error', 'Mật khẩu không đúng');

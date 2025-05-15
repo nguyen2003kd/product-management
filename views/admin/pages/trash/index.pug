@@ -1,47 +1,83 @@
 extends ../../layout/default.pug
-include ../../mixins/search-product.pug
 include ../../mixins/pagination-page.pug
-include ../../mixins/multi-change-status.pug
 include ../../mixins/flash-messages.pug
-include ../../mixins/trash-selected.pug
+include ../../mixins/multi-change-status.pug
+
 block main
-  .card.mb-3
-    .card-header Thung rac
+  .page-header.mb-4
+    .row.align-items-center
+      .col-md-6
+        h1.page-title
+          i.fas.fa-trash-alt.mr-2
+          | Quản lý thùng rác
+      .col-md-6.text-right
+        if(roleList.permissions.includes('products_delete'))
+          a.btn.btn-danger(href=`${systemAdmin}/trash/delete-all` onclick="return confirm('Bạn có chắc chắn muốn xóa tất cả?')")
+            i.fas.fa-trash.mr-2
+            | Xóa tất cả
+
+  .card
+    .card-header.bg-white
+      .row.align-items-center
+        .col-md-6
+          h5.card-title.mb-0
+            i.fas.fa-list.mr-2
+            | Danh sách đã xóa
+        .col-md-6.text-right
+          +multiChangeStatus(`${systemAdmin}/trash/mutil-restore?_method=PATCH`)
+    
     .card-body
-      .row
-        .col-4
-          div(trash)
-            select(name="trash" class="form-control" trash-selected)
-              option(value="product" ) san pham
-              option(value="category") danh muc
-              option(value="permission") Nhom quyen
-              option(value="account") tai khoan
-          .col-4
-          .d-flex.align-items-center  
-            form(id="form-search")
-                  .input-group
-                    input(type="text", name="search", placeholder="Tim kiem san pham" class="form-control" value=``)
-                    .input-group-append
-                      button(type="submit" class="btn btn-success") Tim kiem
-        .col-4
-          if(selected)
-            +multiChangeTrash(`${systemAdmin}/trash/multiChangeTrash?_method=PATCH&selected=${selected}`)
-    .card.mb-3  
-      .card-header Danh sach
-        +flashMessage()
-        .card-body
-          +trash-selected(product,selected)
-  nav
-    ul(class="pagination")
-      li(class="page-item")
-      if objectPagination.page > 1
-          button(class="page-link" button-pagination=objectPagination.page-1) <<
-      -for(let i=1;i<=objectPagination.totalPage;i++)
-        li(class=`page-item ${i == objectPagination.page ? 'active' : ''}`) 
-          button(class="page-link" button-pagination=i) #{i}
-      li(class="page-item")
-      if objectPagination.page < objectPagination.totalPage
-          button(class="page-link" button-pagination=objectPagination.page+1) >>
-  form(action='', method="POST" id="form-change-deleted" data-url=`${systemAdmin}/trash/delete`)
-  form(action='', method="POST" id="form-change-restore" data-url=`${systemAdmin}/trash/restore`)
+      +flashMessage()
+      
+      .table-responsive
+        table.table.table-hover.table-bordered.align-middle(check-box-multi)
+          thead.thead-light
+            tr
+              th.text-center(style="width: 50px")
+                input(type="checkbox" name="checkall")
+              th.text-center(style="width: 60px") STT
+              th(style="width: 100px") Hình ảnh
+              th Tiêu đề
+              th.text-center(style="width: 120px") Loại
+              th.text-center(style="width: 120px") Ngày xóa
+              th.text-center(style="width: 200px") Thao tác
+          tbody
+            each item, index in product
+              tr
+                td.text-center
+                  input(type="checkbox" name="checkone" value=item.id)
+                td.text-center #{index+1}
+                td
+                  .item-thumbnail
+                    img.img-thumbnail(src=item.thumbnail || "/admin/images/no-image.png", alt=item.title)
+                td
+                  .item-info
+                    h6.mb-1 #{item.title}
+                    if item.category
+                      small.text-muted
+                        i.fas.fa-tag.mr-1
+                        | #{item.category.title}
+                td.text-center
+                  span.badge.badge-info.p-2 #{item.type}
+                td.text-center
+                  small.text-muted
+                    i.far.fa-clock.mr-1
+                    | #{item.deletedAt}
+                td.text-center
+                  .btn-group
+                    if(roleList.permissions.includes('products_delete'))
+                      a.btn.btn-success.btn-sm(href="javascript:;" title="Khôi phục" button-restore data-id=item.id)
+                        i.fas.fa-undo.mr-1
+                        | Khôi phục
+                      button.btn.btn-danger.btn-sm(title="Xóa vĩnh viễn" button-delete data-id=item.id)
+                        i.fas.fa-trash-alt.mr-1
+                        | Xóa vĩnh viễn
+
+      .mt-4
+        nav
+          ul.pagination.justify-content-center
+            +objectPagination(objectPagination)
+
+  form(action='' method="POST" id="form-restore" data-url=`${systemAdmin}/trash/restore`)
+  form(action='' method="POST" id="form-delete" data-url=`${systemAdmin}/trash/delete`)
   script(src="/admin/js/trash.js")

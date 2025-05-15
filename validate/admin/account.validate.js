@@ -24,7 +24,6 @@ module.exports.creatPost = (req, res, next) => {
 }
 
 module.exports.editPatch = (req, res, next) => {
-    console.log(req.body);
     if (!req.body.fullname) {
         req.flash('error', 'vui lòng điền Ho va ten !');
         res.redirect(req.headers.referer || '/');

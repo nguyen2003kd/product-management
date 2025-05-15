@@ -1,17 +1,36 @@
 .sider
   .inner-menu
     ul
-      li
-        a(href=systemAdmin + '/dashboard') tong quan
-      li
-        a(href=systemAdmin + '/product') sản phẩm
-      li
-        a(href=systemAdmin + '/trash') thung rac
-      li
-        a(href=systemAdmin + '/catelogy') danh mục sản phẩm
-      li
-        a(href=systemAdmin + '/roles') Nhóm quyền
-      li
-        a(href=systemAdmin + '/roles/permission') Phan quyen
-      li
-        a(href=systemAdmin + '/accounts') Tai khoan
+      li(class=path === '/admin/dashboard' ? 'active' : '')
+        a(href=systemAdmin + '/dashboard')
+          i.fas.fa-tachometer-alt.mr-2
+          span Tổng quan
+      if(roleList.permissions.includes("products_view"))
+        li(class=path === '/admin/product' ? 'active' : '')
+          a(href=systemAdmin + '/product')
+            i.fas.fa-box.mr-2
+            span Sản phẩm
+      if(roleList.permissions.includes("products-category_view"))
+        li(class=path === '/admin/catelogy' ? 'active' : '')
+          a(href=systemAdmin + '/catelogy')
+            i.fas.fa-list.mr-2
+            span Danh mục sản phẩm
+      if(roleList.permissions.includes("roles_view"))
+        li(class=path === '/admin/roles' ? 'active' : '')
+          a(href=systemAdmin + '/roles')
+            i.fas.fa-users-cog.mr-2
+            span Nhóm quyền
+      if(roleList.permissions.includes("roles_permissions"))
+        li(class=path === '/admin/roles/permission' ? 'active' : '')
+          a(href=systemAdmin + '/roles/permission')
+            i.fas.fa-key.mr-2
+            span Phân quyền
+      if(roleList.permissions.includes("accounts_view"))
+        li(class=path === '/admin/accounts' ? 'active' : '')
+          a(href=systemAdmin + '/accounts')
+            i.fas.fa-user-shield.mr-2
+            span Tài khoản
+      li(class=path === '/admin/trash' ? 'active' : '')
+        a(href=systemAdmin + '/trash')
+          i.fas.fa-trash-alt.mr-2
+          span Thùng rác

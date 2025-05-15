@@ -32,7 +32,6 @@ module.exports.postCreate = async (req, res) => {
      }
      else
          req.body.position=parseInt(req.body.position)
-    console.log(req.body)
     await categoryModel.create(req.body)
     res.redirect(systemAdmin.ADMINROUTER + "/catelogy");
 }

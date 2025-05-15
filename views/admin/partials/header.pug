@@ -3,9 +3,14 @@ header.header
     .row.align-items-center
       .col-3
         .inner-logo
-          a(href=systemAdmin + '/dashboard') ADMIN
+          a(href=systemAdmin + '/dashboard')
+            i.fas.fa-store.mr-2
+            span ADMIN PANEL
       .col-9 
-        div(class="text-right")
-          a(href=systemAdmin + '/auth/logout', class="btn btn-danger") Đăng xuất
-
-
+        .inner-menu.d-flex.justify-content-end.align-items-center
+          .user-info.mr-3
+            i.fas.fa-user-circle.mr-2
+          .notifications.mr-3 
+          a(href=systemAdmin + '/auth/logout', class="btn btn-outline-light")
+            i.fas.fa-sign-out-alt.mr-2
+            span Đăng xuất
