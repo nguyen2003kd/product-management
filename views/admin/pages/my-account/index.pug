@@ -1,0 +1,84 @@
+extends ../../layout/default.pug
+
+block main
+  .container.py-4
+    .row
+      // Profile Card
+      .col-md-4.mb-4
+        .card.shadow-sm
+          .card-body.text-center
+            .profile-image.mb-3
+              if accountInfo.avatar
+                img.rounded-circle.img-thumbnail(src=accountInfo.avatar alt=accountInfo.fullname style="width: 150px; height: 150px; object-fit: cover;")
+              else
+                .avatar-placeholder.rounded-circle.d-flex.align-items-center.justify-content-center.mx-auto(style="width: 150px; height: 150px; background-color: #e9ecef;")
+                  i.fas.fa-user.fa-3x.text-muted
+            h4.mb-2 #{accountInfo.fullname}
+            p.text-muted.mb-3
+              i.fas.fa-envelope.me-2
+              | #{accountInfo.email}
+            if accountInfo.phone
+              p.text-muted.mb-3
+                i.fas.fa-phone.me-2
+                | #{accountInfo.phone}
+            .d-grid.gap-2
+              button.btn.btn-primary
+                a.user-info-link(href=`${systemAdmin}/accounts/edit/${accountInfo._id}`)
+                  i.fas.fa-edit.me-2
+                  | Chỉnh sửa thông tin
+              button.btn.btn-outline-secondary
+                i.fas.fa-key.me-2
+                | Đổi mật khẩu
+
+      // Account Information
+      .col-md-8
+        .card.shadow-sm.mb-4
+          .card-header.bg-white
+            h5.mb-0
+              i.fas.fa-user-circle.me-2
+              | Thông tin tài khoản
+          .card-body
+            .row.g-3
+              .col-md-6
+                .info-item
+                  label.text-muted.d-block Họ và tên
+                  p.mb-0.fw-bold #{accountInfo.fullname}
+              .col-md-6
+                .info-item
+                  label.text-muted.d-block Email
+                  p.mb-0.fw-bold #{accountInfo.email}
+              if accountInfo.phone
+                .col-md-6
+                  .info-item
+                    label.text-muted.d-block Số điện thoại
+                    p.mb-0.fw-bold #{accountInfo.phone}
+              if accountInfo.address
+                .col-md-6
+                  .info-item
+                    label.text-muted.d-block Địa chỉ
+                    p.mb-0.fw-bold #{accountInfo.address}
+              .col-md-6
+                .info-item
+                  label.text-muted.d-block Ngày tham gia
+                  p.mb-0.fw-bold #{accountInfo.createdAt ? new Date(accountInfo.createdAt).toLocaleDateString('vi-VN') : 'N/A'}
+
+        // Account Statistics
+        .card.shadow-sm
+          .card-header.bg-white
+            h5.mb-0
+              i.fas.fa-chart-bar.me-2
+              | Thống kê tài khoản
+          .card-body
+            .row.g-3
+              .col-md-4
+                .stat-card.text-center.p-3.rounded.bg-light
+                  h3.mb-2 #{accountInfo.totalOrders || 0}
+                  p.text-muted.mb-0 Đơn hàng
+              .col-md-4
+                .stat-card.text-center.p-3.rounded.bg-light
+                  h3.mb-2 #{accountInfo.totalSpent || 0}đ
+                  p.text-muted.mb-0 Tổng chi tiêu
+              .col-md-4
+                .stat-card.text-center.p-3.rounded.bg-light
+                  h3.mb-2 #{accountInfo.lastOrder ? new Date(accountInfo.lastOrder).toLocaleDateString('vi-VN') : 'N/A'}
+                  p.text-muted.mb-0 Đơn hàng gần nhất

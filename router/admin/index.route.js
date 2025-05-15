@@ -5,6 +5,7 @@ const catelogyRouter = require('./catelogy.route.js');
 const rolesRouter = require('./roles.route.js');
 const accountRouter = require('./accouts.route.js');
 const authRouter = require('./auth.route.js');
+const myAccountRouter = require('./my-account.route.js');
 const systemAdmin=require('../../configs/system.js');
 const authMiddleware = require('../../middlewares/admin/auth.middleware.js')
 module.exports=(app) => {
@@ -15,4 +16,5 @@ module.exports=(app) => {
     app.use(systemAdmin.ADMINROUTER+'/roles', authMiddleware.requireAuth,rolesRouter);
     app.use(systemAdmin.ADMINROUTER+'/accounts',authMiddleware.requireAuth,accountRouter);
     app.use(systemAdmin.ADMINROUTER+'/auth', authRouter);
+    app.use(systemAdmin.ADMINROUTER+'/my-account', authMiddleware.requireAuth,myAccountRouter);
 }

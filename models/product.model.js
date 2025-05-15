@@ -29,6 +29,10 @@ const productSchema = new mongoose.Schema({
         type:Boolean,
         default:false,
     },
+    updated_by: [{
+        account_id: String,
+        updatedAt: Date,
+    }],
     slug: { type: String, slug: "title",unique: true }
     },
     { timestamps: true });

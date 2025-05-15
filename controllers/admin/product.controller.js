@@ -65,25 +65,33 @@ module.exports.index = async(req, res) => {
 } 
 //[PATCH] /admin/product/change-status/:status/:id
 module.exports.changeStatus = async(req, res) => {
-        await productModel.updateOne({
-            _id: req.params.id,
-        }, {
-            $set:{status:req.params.status},
+    const updated_by={
+        account_id: res.locals.account._id,
+        updatedAt: new Date(),
+    }
+    await productModel.updateOne({
+        _id: req.params.id,
+    }, {
+            $set:{status:req.params.status,},
+            $push:{updated_by:updated_by},
         })
         req.flash('info', 'Cập nhật trạng thái thành công');
         res.redirect(req.headers.referer || '/');
 }
 //[PATCH]/admin/product/mutill-change-status
 module.exports.mutillChangeStatus = async(req, res) => {
+    const updated_by={
+        account_id: res.locals.account._id,
+        updatedAt: new Date(),
+    }
     const ids=req.body.ids.split(',');
-    const now = new Date();
-    const utc = now.getTime();
     switch (req.body.type) {
         case 'active':
             await productModel.updateMany({
                 _id: ids,
             }, {
                 $set:{status:'active'},
+                $push:{updated_by:updated_by},
             })
             req.flash('info', 'Cập nhật trạng thái thành công');
             break;
@@ -92,6 +100,7 @@ module.exports.mutillChangeStatus = async(req, res) => {
                 _id: ids,
             }, {
                 $set:{status:'inactive'},
+                $push:{updated_by:updated_by},
             })
             req.flash('info', 'Cập nhật trạng thái thành công');
             break;
@@ -102,7 +111,7 @@ module.exports.mutillChangeStatus = async(req, res) => {
         case 'position':
             for(const item of ids){
                 let[id,position]=item.split('-');
-                await productModel.updateOne({_id:id},{position:parseInt(position)})
+                await productModel.updateOne({_id:id},{position:parseInt(position),$push:{updated_by:updated_by}})
             }
             req.flash('info', 'thay đổi vị trí thành công');
             break;
@@ -163,6 +172,10 @@ module.exports.edit=async(req,res)=>{
     })
 }//[PATCH]/admin/product/edit/:id
 module.exports.editPost=async(req,res)=>{
+    const updated_by={
+        account_id: res.locals.account._id,
+        updatedAt: new Date(),
+    }
     req.body.price=parseInt(req.body.price)
     req.body.discountPercentage=parseInt(req.body.discountPercentage)
     req.body.stock=parseInt(req.body.stock)
@@ -175,7 +188,7 @@ module.exports.editPost=async(req,res)=>{
     }
     else
         req.body.position=parseInt(req.body.position)
-    await productModel.updateOne({_id:req.params.id},req.body)
+    await productModel.updateOne({_id:req.params.id},{$set:req.body,$push:{updated_by:updated_by}})
     req.flash('info', 'chỉnh sửa thành công');
     res.redirect('/admin/product')
 }

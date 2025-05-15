@@ -9,7 +9,9 @@ header.header
       .col-9 
         .inner-menu.d-flex.justify-content-end.align-items-center
           .user-info.mr-3
-            i.fas.fa-user-circle.mr-2
+            a(href=systemAdmin + '/my-account', class="user-info-link",)
+              i.fas.fa-user-circle.mr-2
+              | #{account.fullname}
           .notifications.mr-3 
           a(href=systemAdmin + '/auth/logout', class="btn btn-outline-light")
             i.fas.fa-sign-out-alt.mr-2
