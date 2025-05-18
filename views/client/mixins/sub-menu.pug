@@ -1,0 +1,9 @@
+mixin sub-menu(categories,patchProduct)
+  ul.sub-menu
+    each category in categories
+      li.sub-menu-item
+        a(href=`${patchProduct}/${category.slug}`)
+          i.fas.fa-angle-double-right
+          | #{category.title}
+        if(category.children && category.children.length > 0)
+          +sub-menu(category.children,patchProduct)

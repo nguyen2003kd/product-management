@@ -1,5 +1,6 @@
 extends ../../layout/default.pug
 include ../../mixins/box-head.pug
+include ../../mixins/renderCategories.pug
 block main
   .container.my-4
     .row
@@ -17,11 +18,8 @@ block main
             .filter-group
               h6 Danh mục
               .category-list
-                each category in categories
-                  .category-item
-                    a(href=`/product?category=${category.slug}` class=`${currentCategory === category.slug ? 'active' : ''}`)
-                      i.fas.fa-chevron-right
-                      span #{category.title}
+                .category-item
+                  +renderCategories(layoutCategories)
             .filter-group
               h6 Giá
               .price-range
@@ -72,8 +70,10 @@ block main
                     span.badge.badge-danger -#{product.discountPercentage}%
                   if product.stock <= 0
                     span.badge.badge-warning Hết hàng
+                  if product.featured == '1'
+                    span.badge.badge-success Nổi bật
                 .product-thumbnail
-                  a(href=`/product/${product.slug}`)
+                  a(href=`/product/detail/${product.slug}`)
                     img(src=product.thumbnail, alt=product.title)
                   .product-actions
                     button.btn-action.btn-wishlist(title="Thêm vào yêu thích")
@@ -85,9 +85,9 @@ block main
                 .product-info
                   .product-category
                     if product.category && product.category.slug
-                      a(href=`/product?category=${product.category.slug}`) #{product.category.title}
+                      a(href=`/product/${product.category.slug}`) #{product.category.title}
                   h3.product-title
-                    a(href=`/product/${product.slug}`) #{product.title}
+                    a(href=`/product/detail/${product.slug}`) #{product.title}
                   .product-price
                     if product.discountPercentage > 0
                       span.price-new #{product.newPrice}$

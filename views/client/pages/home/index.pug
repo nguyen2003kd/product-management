@@ -13,19 +13,19 @@ block main
             a.btn.btn-primary.btn-lg(href="/product") Mua sắm ngay
         .col-md-6
           .hero-image
-            img.img-fluid(src="/images/hero-image.jpg", alt="Hero Image")
+            img.img-fluid(src="/images/Animation1000.gif", alt="Hero Image")
 
   //- Categories Section
-  section.categories-section.py-5
-    .container
-      +box-head("Danh mục sản phẩm")
-      .row
-        each category in categories
-          .col-md-4.col-lg-2.mb-4
-            a.category-card(href=`/product?category=${category.slug}`)
-              .category-image
-                img.img-fluid(src=category.thumbnail || "/images/category-placeholder.jpg", alt=category.title)
-              h3.category-title #{category.title}
+  //- section.categories-section.py-5
+  //-   .container
+  //-     +box-head("Danh mục sản phẩm")
+  //-     .row
+  //-       each category in categories
+  //-         .col-md-4.col-lg-2.mb-4
+  //-           a.category-card(href=`/product?category=${category.slug}`)
+  //-             .category-image
+  //-               img.img-fluid(src=category.thumbnail || "/images/category-placeholder.jpg", alt=category.title)
+  //-             h3.category-title #{category.title}
 
   //- Featured Products Section
   section.featured-products.py-5.bg-light

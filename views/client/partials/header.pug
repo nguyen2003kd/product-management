@@ -1,3 +1,4 @@
+include ../mixins/sub-menu.pug
 header.header
   .container
     .row.align-items-center
@@ -12,25 +13,37 @@ header.header
               a.nav-link(href="/")
                 i.fas.fa-home
                 span Trang chủ
-            li.nav-item
-              a.nav-link(href="/product")
+            li.nav-item.sub-menu
+              -const patchProduct="/product"
+              a.nav-link(href=patchProduct)
                 i.fas.fa-shopping-bag
                 span Sản phẩm
-            li.nav-item
-              a.nav-link(href="/about")
-                i.fas.fa-info-circle
-                span Giới thiệu
-            li.nav-item
-              a.nav-link(href="/contact")
-                i.fas.fa-envelope
-                span Liên hệ
+              +sub-menu(layoutCategories,patchProduct)
+            li.nav-item.search-nav-item
+              a.nav-link.search-toggle(href="javascript:void(0)")
+                i.fas.fa-search
+                span Tìm kiếm
+              .search-form
+                form(action="/search" method="GET")
+                  .search-input-group
+                    input(
+                      type="text"
+                      name="keyword"
+                      placeholder="Nhập từ khóa tìm kiếm..."
+                      autocomplete="off"
+                    )
+                    button.search-btn(type="submit")
+                      i.fas.fa-search
             li.nav-item
               a.nav-link(href="/cart")
                 i.fas.fa-shopping-cart
                 span Giỏ hàng
                 span.cart-count 0
             li.nav-item
+              a.nav-link(href="/about")
+                i.fas.fa-info-circle
+                span Giới thiệu
+            li.nav-item
               a.nav-link(href="/account")
                 i.fas.fa-user
                 span Tài khoản
-                

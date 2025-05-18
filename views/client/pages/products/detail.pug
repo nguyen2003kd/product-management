@@ -32,11 +32,11 @@ block main
           h1.product-title #{item.title}
           
           .product-meta
-            if item.category
+            if item.product_category_id
               .meta-item
                 i.fas.fa-tag
                 span Danh mục: 
-                a(href=`/product?category=${item.category.slug}`) #{item.category.title}
+                a(href=`/product${category.slug}`) #{category.title}
             .meta-item
               i.fas.fa-box
               span Mã sản phẩm: 
@@ -49,13 +49,14 @@ block main
           .product-price-box
             if item.discountPercentage > 0
               .price-wrapper
-                span.price-new #{item.newPrice}$
-                span.price-old #{item.price}$
-                span.discount-badge -#{item.discountPercentage}%
+                span.price-new Giá mới: #{item.newPrice}$
+                br
+                span.price-old Giá Gốc: #{item.price}$
+                br
+                span.discount-badge Giảm tới -#{item.discountPercentage}%
             else
               .price-wrapper
                 span.price-new #{item.price}$
-
           .product-stock
             if item.stock > 0
               .stock-status.in-stock
@@ -65,12 +66,11 @@ block main
               .stock-status.out-of-stock
                 i.fas.fa-times-circle
                 span Hết hàng
-
           .product-actions
-            .quantity-selector
-              button.btn-quantity(type="button" data-action="decrease") -
+            .quantity-selector(edit-quantity)
+              button.btn-quantity(type="button" id="decrease" data-action="decrease") -
               input.form-control(type="number" value="1" min="1" max=item.stock)
-              button.btn-quantity(type="button" data-action="increase") +
+              button.btn-quantity(type="button" id="increase" data-action="increase") +
             .action-buttons
               button.btn.btn-primary.btn-add-cart
                 i.fas.fa-shopping-cart
@@ -81,7 +81,7 @@ block main
               button.btn.btn-outline-info.btn-share
                 i.fas.fa-share-alt
                 span Chia sẻ
-
+                
           .product-description
             h5 Mô tả sản phẩm
             .description-content !{item.description}

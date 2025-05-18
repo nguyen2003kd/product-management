@@ -20,6 +20,7 @@ const productSchema = new mongoose.Schema({
     stock: Number,
     thumbnail: String,
     status: String,
+    featured: String,
     position: Number,
     deleted_by: {
         account_id: String,

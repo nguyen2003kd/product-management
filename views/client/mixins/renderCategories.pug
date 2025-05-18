@@ -1,0 +1,9 @@
+mixin renderCategories(categories, level =0,id)
+  each category in categories
+    -const prefix = Array(level + 1).join('&nbsp;&nbsp;&nbsp;&nbsp;')
+      a(href=`/product/${category.slug}` class=`${currentCategory === category.slug ? 'active' : ''}`)
+        span !{prefix}
+        i.fas.fa-chevron-right
+        span #{category.title}
+    if (category.children && category.children.length > 0)
+      +renderCategories(category.children, level+1,id)
