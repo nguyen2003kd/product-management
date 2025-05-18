@@ -4,9 +4,8 @@ include ../../mixins/renderCategories.pug
 block main
   .container.my-4
     .row
-      .col-12
-        +box-head("Sản phẩm nổi bật")
-    
+      //- .col-12.text-center
+      //-   +box-head("Sản phẩm nổi bật")
     //- Filters Section
     .row.mb-4
       .col-md-3
@@ -46,19 +45,19 @@ block main
 
       .col-md-9
         //- Search and Sort Bar
-        .product-toolbar.mb-4
-          .row.align-items-center
-            .col-md-6
-              .search-box
-                input.form-control(type="text" placeholder="Tìm kiếm sản phẩm...")
-                button.btn-search
-                  i.fas.fa-search
-            .col-md-6.text-right
-              .view-options
-                button.btn-view.active(data-view="grid")
-                  i.fas.fa-th
-                button.btn-view(data-view="list")
-                  i.fas.fa-list
+        //- .product-toolbar.mb-4
+        //-   .row.align-items-center
+        //-     .col-md-6
+        //-       .search-box
+        //-         input.form-control(type="text" placeholder="Tìm kiếm sản phẩm...")
+        //-         button.btn-search
+        //-           i.fas.fa-search
+        //-     .col-md-6.text-right
+        //-       .view-options
+        //-         button.btn-view.active(data-view="grid")
+        //-           i.fas.fa-th
+        //-         button.btn-view(data-view="list")
+        //-           i.fas.fa-list
 
         //- Products Grid
         .row.product-grid

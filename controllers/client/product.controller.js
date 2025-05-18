@@ -10,12 +10,17 @@ module.exports.index = async (req, res) => {
             status: "active"
         };
         const products = await Product.find(find).sort({ position: 'desc' })
+        for(const item of products){
+            if(item.product_category_id){
+                const category = await ProductCategory.findOne({_id:item.product_category_id})
+                item.category = category
+            }
+        }
         // Calculate new prices
         const newProducts = products.map((item) => {
             item.newPrice = (item.price * (100 - item.discountPercentage) / 100).toFixed(2);
             return item;
         });
-
         res.render("client/pages/products/index.pug", {
             pageTitle: "Danh sách sản phẩm",
             Product: newProducts,
@@ -47,6 +52,12 @@ module.exports.category = async(req, res) => {
             status: "active",
             product_category_id: {$in:[category._id,...subCategoryList]}
         });
+        for(const item of products){
+            if(item.product_category_id){
+                const category = await ProductCategory.findOne({_id:item.product_category_id})
+                item.category = category
+            }
+        }
         res.render("client/pages/products/index.pug", {
             pageTitle: category.title,
             Product: products,
@@ -65,9 +76,9 @@ module.exports.detail=async(req,res)=>{
             deleted:false,
             slug:req.params.slug
         }
-        product=await Product.findOne(find)
+        let product=await Product.findOne(find)
         const category=await ProductCategory.findOne({_id:product.product_category_id})
-        product.newPrice=(product.price * (100 - product.discountPercentage) / 100).toFixed(2)
+        product=newPrice.newPrice(product)
         res.render("client/pages/products/detail.pug",{
             item:product,
             category:category,
