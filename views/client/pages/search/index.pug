@@ -27,19 +27,19 @@ block main
                     +renderCategories(layoutCategories)
           .filter-group
             h6 Giá
-            .price-range
-              .form-check
-                input#price1.form-check-input(type="radio" name="price" value="0-100")
-                label.form-check-label(for="price1") Dưới 100$
-              .form-check
-                input#price2.form-check-input(type="radio" name="price" value="100-500")
-                label.form-check-label(for="price2") 100$ - 500$
-              .form-check
-                input#price3.form-check-input(type="radio" name="price" value="500-1000")
-                label.form-check-label(for="price3") 500$ - 1000$
-              .form-check
-                input#price4.form-check-input(type="radio" name="price" value="1000-up")
-                label.form-check-label(for="price4") Trên 1000$
+              .price-range
+                .form-check
+                  input#price1.form-check-input(type="radio" name="price" value="0-100")
+                  label.form-check-label(for="price1") Dưới 100$
+                .form-check
+                  input#price2.form-check-input(type="radio" name="price" value="100-500")
+                  label.form-check-label(for="price2") 100$ - 500$
+                .form-check
+                  input#price3.form-check-input(type="radio" name="price" value="500-1000")
+                  label.form-check-label(for="price3") 500$ - 1000$
+                .form-check
+                  input#price4.form-check-input(type="radio" name="price" value="1000-Infinity")
+                  label.form-check-label(for="price4") Trên 1000$
           .filter-group
             h6 Sắp xếp
             select.form-select(name="sort")
@@ -93,27 +93,3 @@ block main
             i.fas.fa-search
             h3 Không tìm thấy sản phẩm
             p Vui lòng thử lại với từ khóa khác
-
-  script.
-    document.addEventListener('DOMContentLoaded', function() {
-      const filterForm = document.querySelector('.filter-section');
-      const filterInputs = filterForm.querySelectorAll('input, select');
-      
-      filterInputs.forEach(input => {
-        input.addEventListener('change', function() {
-          const formData = new FormData();
-          filterInputs.forEach(input => {
-            if (input.type === 'checkbox' && input.checked) {
-              formData.append(input.name, input.value);
-            } else if (input.type === 'radio' && input.checked) {
-              formData.append(input.name, input.value);
-            } else if (input.type === 'select-one') {
-              formData.append(input.name, input.value);
-            }
-          });
-          
-          const searchParams = new URLSearchParams(formData);
-          window.location.href = `/search?${searchParams.toString()}`;
-        });
-      });
-    });

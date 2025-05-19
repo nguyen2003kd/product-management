@@ -35,7 +35,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //[cookie-parser]giúp phân tích cookie từ client gửi lên và gán vào req.cookies
 //[express-session] để lưu dữ liệu tạm 
 app.use(cookieParser('hentaivn'));
-app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(session({
+    secret: process.env.SESSION_SECRET, // nên lưu trong biến môi trường .env
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 // session tồn tại 1 ngày
+    }
+  }));
 app.use(flash());
 //END
 //[Tinymce]
@@ -44,6 +51,7 @@ app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce
 //[moment] để fotmat hiển thị ngày tháng
 app.locals.moment = moment;
 //end
+//[session]
 //[router]
 routerAdmin(app);
 routerClient(app);

@@ -25,7 +25,7 @@ module.exports.postLogin = async (req, res) => {
         }
         if (await argon2.verify(account.password, password)) {
             req.session.user = account;
-            res.cookie('tkacc',account.token,)
+            // res.cookie('tkacc',account.token,)
             req.flash('info', 'Đăng nhập thành công');
             res.redirect('/admin/dashboard');
         }

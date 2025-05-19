@@ -45,7 +45,6 @@ module.exports.index = async(req, res) => {
     product=await productModel.find(find).limit(objectPagination.limit).skip((objectPagination.page-1)*objectPagination.limit).sort(sort);
     for (const item of product) {
         const acc = await accountModel.findById(item.created_by.account_id);
-        console.log(acc)
         if(acc){
             item.accountFullname = acc.fullname;
         }
@@ -53,7 +52,6 @@ module.exports.index = async(req, res) => {
             item.accountFullname = 'Không tìm thấy tài khoản';
         }
     }
-    console.log(product)
       
     res.render("admin/pages/product/index.pug", {
         pageTitle: "quang lý sản phẩm",
@@ -137,7 +135,6 @@ module.exports.create=async(req,res)=>{
     })
 }//[POST]/admin/product/create/:id
 module.exports.createPost=async(req,res)=>{
-    console.log(res.locals.account)
     req.body.created_by={
         account_id: res.locals.account._id,
     }
