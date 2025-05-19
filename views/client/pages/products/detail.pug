@@ -1,5 +1,6 @@
 extends ../../layout/default.pug
 include ../../mixins/box-head.pug
+include ../../mixins/flash-messages.pug
 block main
   .container.my-4
     //- Breadcrumb
@@ -27,7 +28,9 @@ block main
                   img(src=image, alt=item.title)
 
       //- Product Info
+
       .col-md-6
+        +flashMessage()
         .product-details
           h1.product-title #{item.title}
           
@@ -70,7 +73,7 @@ block main
             .product-actions
               .quantity-selector(edit-quantity)
                 button.btn-quantity(type="button" id="decrease" data-action="decrease") -
-                input.form-control(type="number" value="1" min="1" max=item.stock pattern="^[0-9]+$")
+                input.form-control(type="number" value="1" min="1" max=item.stock name="quantity")
                 button.btn-quantity(type="button" id="increase" data-action="increase") +
               .action-buttons
                 button.btn.btn-primary.btn-add-cart(type="submit")

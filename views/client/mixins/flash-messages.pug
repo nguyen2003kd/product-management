@@ -1,0 +1,11 @@
+mixin flashMessage()
+  - if (messages.info)
+    .message.info
+      div(class="alert alert-success show-alert slide-in" data-time=4000 show-alert)
+        span= messages.info
+
+mixin flashMessageError()
+  - if (messages.error)
+    .message.info
+      div(class="alert alert-danger show-alert slide-in" data-time=4000 show-alert)
+        span= messages.error

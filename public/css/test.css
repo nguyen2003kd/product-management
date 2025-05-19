@@ -211,7 +211,42 @@
     display: block;
 }
 /* End sub-menu */
+/* show-alert */
+.show-alert {
+    position: fixed;
+    top: 70px;
+    right: -300px; /* Ẩn khỏi màn hình */
+    border-radius: 8px;
+    z-index: 999;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
 
+.show-alert.slide-in {
+    animation: slideIn 0.5s forwards;
+}
+
+.show-alert.slide-out {
+    animation: slideOut 0.5s forwards;
+}
+
+@keyframes slideIn {
+    from {
+      right: -300px;
+    }
+    to {
+      right: 20px;
+    }
+}
+
+@keyframes slideOut {
+    from {
+      right: 20px;
+    }
+    to {
+      right: -400px;
+    }
+}
+/* End show-alert */
 /* product-detail */
 .product-detail .inner-thumb img {
     width: 100%;
