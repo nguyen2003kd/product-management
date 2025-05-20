@@ -1,43 +1,43 @@
-const editQuantity = document.querySelectorAll('[edit-quantity]');
-  if(editQuantity.length > 0) {
-    editQuantity.forEach(item => {
-        const dedecrease=item.querySelector('#decrease');
-        const input = item.querySelector('input');
-        dedecrease.addEventListener('click', (e) => {
-        e.preventDefault();
-        let value = parseInt(input.value);
-        if(value > 1) {
-            value--;    
-        }
-        input.value = value;
-    });
-    const increase=item.querySelector('#increase');
-    increase.addEventListener('click', (e) => {
-        e.preventDefault();
-        let value = parseInt(input.value);
-        if(value < parseInt(input.max)) {
-            value++;
-        }
-        input.value = value;
-    });
-    input.addEventListener('blur', (e) => {
-        e.preventDefault();
-        let value = parseInt(input.value);
-        if(isNaN(value)) {
-            value = parseInt(input.min);
-            input.value = value;
-        }
-        if(value < parseInt(input.min)) {
-            value = parseInt(input.min);
-            input.value = value;
-        }
-        if(value > parseInt(input.max)) {
-            value = parseInt(input.max);
-            input.value = value;
-        }
-    });
-    });
-}
+// const editQuantity = document.querySelectorAll('[edit-quantity]');
+//   if(editQuantity.length > 0) {
+//     editQuantity.forEach(item => {
+//         const dedecrease=item.querySelector('#decrease');
+//         const input = item.querySelector('input');
+//         dedecrease.addEventListener('click', (e) => {
+//         e.preventDefault();
+//         let value = parseInt(input.value);
+//         if(value > 1) {
+//             value--;    
+//         }
+//         input.value = value;
+//     });
+//     const increase=item.querySelector('#increase');
+//     increase.addEventListener('click', (e) => {
+//         e.preventDefault();
+//         let value = parseInt(input.value);
+//         if(value < parseInt(input.max)) {
+//             value++;
+//         }
+//         input.value = value;
+//     });
+//     input.addEventListener('blur', (e) => {
+//         e.preventDefault();
+//         let value = parseInt(input.value);
+//         if(isNaN(value)) {
+//             value = parseInt(input.min);
+//             input.value = value;
+//         }
+//         if(value < parseInt(input.min)) {
+//             value = parseInt(input.min);
+//             input.value = value;
+//         }
+//         if(value > parseInt(input.max)) {
+//             value = parseInt(input.max);
+//             input.value = value;
+//         }
+//     });
+//     });
+// }
 document.addEventListener('DOMContentLoaded', function() {
     const searchNavItem = document.querySelector('.search-nav-item');
     const searchToggle = document.querySelector('.search-toggle');
@@ -152,3 +152,62 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   });
+//end swiper
+//update cart quantity
+const editQuantity = document.querySelectorAll('[edit-quantity]');
+
+if (editQuantity.length > 0) {
+  editQuantity.forEach(item => {
+    const decreaseBtn = item.querySelector('#decrease');
+    const increaseBtn = item.querySelector('#increase');
+    const input = item.querySelector("input[name='quantity']");
+
+    const min = parseInt(input.min);
+    const max = parseInt(input.max);
+
+    const validateAndUpdate = () => {
+      let value = parseInt(input.value);
+      if (isNaN(value) || value < min) {
+        value = min;
+      } else if (value > max) {
+        value = max;
+      }
+      input.value = value;
+
+      // Update URL (if needed)
+      const productId = input.getAttribute('data-product-id');
+      if (productId) {
+        window.location.href = `/cart/${productId}/${value}`;
+      }
+    };
+
+    // Giảm
+    if (decreaseBtn) {
+      decreaseBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        let value = parseInt(input.value);
+        if (value > min) {
+          input.value = value - 1;
+          validateAndUpdate();
+        }
+      });
+    }
+
+    // Tăng
+    if (increaseBtn) {
+      increaseBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        let value = parseInt(input.value);
+        if (value < max) {
+          input.value = value + 1;
+          validateAndUpdate();
+        }
+      });
+    }
+
+    // Khi blur hoặc thay đổi bằng tay
+    input.addEventListener('blur', validateAndUpdate);
+    input.addEventListener('change', validateAndUpdate);
+  });
+}
+//end update cart quantity
