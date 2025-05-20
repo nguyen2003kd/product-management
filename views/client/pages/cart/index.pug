@@ -1,0 +1,90 @@
+extends ../../layout/default.pug
+
+block main
+  .container.cart-page.my-5
+    .row
+      .col-lg-8
+        .cart-items.bg-white.p-4.rounded.shadow-sm.mb-4
+          h4.mb-4.font-weight-bold Giỏ hàng của bạn
+          //- Cart Item Example
+          each item of cartDetail.products
+            .cart-item.d-flex.align-items-center.justify-content-between.py-3.border-bottom
+              .d-flex.align-items-center
+                img.cart-item-img(src=item.productInfo.thumbnail, alt=item.productInfo.title, width="100")
+                .ml-3
+                  a.cart-item-title.big-title(href=`/product/detail/${item.productInfo.slug}`) #{item.productInfo.title}
+              .d-flex.align-items-center
+                if item.productInfo.discountPercentage > 0
+                  .cart-item-price.text-danger.font-weight-bold.mr-3 #{item.productInfo.newPrice}$
+                  del.text-muted.small #{item.productInfo.price}$
+                .cart-item-qty.d-flex.align-items-center.ml-4(edit-quantity)
+                  button.btn.btn-light.btn-sm(type="button" id="decrease" data-action="decrease") -
+                  input.form-control.form-control-sm.text-center.mx-1(type="text", value=item.quantity min="1" max=item.productInfo.stock name="quantity", style="width:40px;")
+                  button.btn.btn-light.btn-sm(type="button" id="increase" data-action="increase") +
+                a.text-danger.ml-4(href="#") Xoá
+            //- Cart Subtotal
+            .cart-subtotal.d-flex.justify-content-end.mt-3
+              span.text-muted Tạm tính (#{item.quantity}sản phẩm):
+              span.font-weight-bold.ml-2 #{item.productInfo.newPrice * item.quantity}$
+        //- Special Requests
+        .cart-special-requests.bg-white.p-4.rounded.shadow-sm.mb-4
+          h5.mb-3.font-weight-bold Yêu cầu đặc biệt
+          .form-check
+            input.form-check-input(type="checkbox", id="guideCheck")
+            label.form-check-label(for="guideCheck") Hướng dẫn sử dụng, giải đáp thắc mắc sản phẩm
+          .form-check
+            input.form-check-input(type="checkbox", id="invoiceCheck")
+            label.form-check-label(for="invoiceCheck") Xuất hóa đơn công ty
+          .form-check
+            input.form-check-input(type="checkbox", id="otherCheck")
+            label.form-check-label(for="otherCheck") Yêu cầu khác
+        //- Discount Code
+        .cart-discount.bg-white.p-4.rounded.shadow-sm.mb-4
+          h5.mb-3.font-weight-bold Sử dụng mã giảm giá
+          .form-group.mb-0.d-flex.align-items-center
+            input.form-control(type="text", placeholder="Nhập mã giảm giá")
+            button.btn.btn-primary.ml-2 Áp dụng
+      .col-lg-4
+        .cart-summary.bg-white.p-4.rounded.shadow-sm
+          h5.mb-3.font-weight-bold Thông tin đơn hàng
+          //- VIP Points
+            //-   .d-flex.align-items-center.mb-2
+            //-     i.fas.fa-gift.text-warning.mr-2
+            //-     span Dùng điểm Quà Tặng VIP
+            //-     .custom-control.custom-switch.ml-auto
+            //-       input.custom-control-input(type="checkbox", id="vipSwitch")
+            //-       label.custom-control-label(for="vipSwitch")
+            //-   //- Combo Discount
+            //-   .d-flex.justify-content-between.mb-2
+            //-     span.text-muted Giảm khuyến mãi combo
+            //-     span.text-success.font-weight-bold -829.400đ
+          hr
+          //- Total
+          .d-flex.justify-content-between.mb-2
+            span.font-weight-bold Tổng tiền
+            span.text-danger.font-weight-bold #{totalPrice}$
+            //-   .d-flex.justify-content-between.mb-3
+            //-     span.text-muted Điểm tích lũy Quà Tặng VIP
+            //-     span.text-primary 37.323 điểm
+          //- Payment Methods
+          h6.font-weight-bold.mb-2 Hình thức thanh toán
+          .form-check
+            input.form-check-input(type="radio", name="paymentMethod", id="cod", checked)
+            label.form-check-label(for="cod") Thanh toán tiền mặt khi nhận hàng
+          .form-check
+            input.form-check-input(type="radio", name="paymentMethod", id="bank")
+            label.form-check-label(for="bank") Chuyển khoản ngân hàng
+          a.text-primary.d-block.mb-2(href="#") 6 hình thức thanh toán khác
+          //- Installment
+          .form-check
+            input.form-check-input(type="checkbox", id="installment")
+            label.form-check-label(for="installment") Trả chậm đơn hàng qua thẻ tín dụng
+          //- Policy Agreement
+          .form-check.mt-3
+            input.form-check-input(type="checkbox", id="policy", checked)
+            label.form-check-label(for="policy")
+              | Tôi đồng ý với 
+              a.text-primary(href="#") Chính sách xử lý dữ liệu cá nhân
+              |  của Thế Giới Di Động
+          //- Order Button
+          button.btn.btn-success.btn-block.mt-3.font-weight-bold Đặt hàng

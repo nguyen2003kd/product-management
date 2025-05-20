@@ -38,7 +38,8 @@ header.header
               a.nav-link(href="/cart")
                 i.fas.fa-shopping-cart
                 span Giỏ hàng
-                span.cart-count 0
+                if(miniCart.totalQuantity > 0 && miniCart.totalQuantity !== undefined)
+                  span.cart-count #{miniCart.totalQuantity}
             li.nav-item
               a.nav-link(href="/about")
                 i.fas.fa-info-circle

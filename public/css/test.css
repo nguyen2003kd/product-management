@@ -228,7 +228,9 @@
 .show-alert.slide-out {
     animation: slideOut 0.5s forwards;
 }
-
+.show-alert.hide {
+    display: none;
+}
 @keyframes slideIn {
     from {
       right: -300px;
@@ -243,7 +245,7 @@
       right: 20px;
     }
     to {
-      right: -400px;
+      right: -600px;
     }
 }
 /* End show-alert */
@@ -1550,4 +1552,9 @@
   }
   .no-results p {
     color: #6c757d;
-  } 
+  }
+  .big-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #000;
+}

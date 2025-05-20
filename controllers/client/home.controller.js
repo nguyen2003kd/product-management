@@ -17,6 +17,12 @@ module.exports.index = async (req, res) => {
         })
         .limit(12);  // Increased from 8 to 12 products     
         // Calculate new prices for featured products
+        for(const item of featuredProducts){
+            if(item.product_category_id){
+                const category = await ProductCategory.findOne({_id:item.product_category_id})
+                item.category = category
+            }
+        }
         const products = newPrices.newPrices(featuredProducts);
 
         // Fetch new arrivals (latest products)
@@ -24,7 +30,12 @@ module.exports.index = async (req, res) => {
             deleted: false,
             status: "active"
         }).sort({ createdAt: 'desc' }).limit(16);  // Increased from 4 to 8 products
-
+        for(const item of newArrivals){
+            if(item.product_category_id){
+                const category = await ProductCategory.findOne({_id:item.product_category_id})
+                item.category = category
+            }
+        }
         // Calculate new prices for new arrivals
         const latestProducts = newPrices.newPrices(newArrivals);
 

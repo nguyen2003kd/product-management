@@ -44,7 +44,7 @@ block main
                     if product.stock <= 0
                       span.badge.badge-warning Hết hàng
                   .product-thumbnail
-                    a(href=`/product/${product.slug}`)
+                    a(href=`/product/detail/${product.slug}`)
                       img(src=product.thumbnail, alt=product.title)
                     .product-actions
                       button.btn-action.btn-quickview(title="Xem nhanh")
@@ -54,9 +54,10 @@ block main
                   .product-info
                     .product-category
                       if product.category && product.category.slug
-                        a(href=`/product?category=${product.category.slug}`) #{product.category.title}
+                        i.fas.fa-tag
+                        a(href=`/product/${product.category.slug}`) #{product.category.title}
                     h3.product-title
-                      a(href=`/product/${product.slug}`) #{product.title}
+                      a(href=`/product/detail/${product.slug}`) #{product.title}
                     .product-price
                       if product.discountPercentage > 0
                         span.price-new #{product.newPrice}$
@@ -81,7 +82,7 @@ block main
                 if product.stock <= 0
                   span.badge.badge-warning Hết hàng
               .product-thumbnail
-                a(href=`/product/${product.slug}`)
+                a(href=`/product/detail/${product.slug}`)
                   img(src=product.thumbnail, alt=product.title)
                 .product-actions
                   button.btn-action.btn-wishlist(title="Thêm vào yêu thích")
@@ -93,9 +94,9 @@ block main
               .product-info
                 .product-category
                   if product.category && product.category.slug
-                    a(href=`/product?category=${product.category.slug}`) #{product.category.title}
+                    a(href=`/product/${product.category.slug}`) #{product.category.title}
                 h3.product-title
-                  a(href=`/product/${product.slug}`) #{product.title}
+                  a(href=`/product/detail/${product.slug}`) #{product.title}
                 .product-price
                   if product.discountPercentage > 0
                     span.price-new #{product.newPrice}$

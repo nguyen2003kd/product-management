@@ -1,8 +1,9 @@
-const editQuantity = document.querySelector('[edit-quantity]');
-if(editQuantity) {
-    const dedecrease=editQuantity.querySelector('#decrease');
-    const input = editQuantity.querySelector('input');
-    dedecrease.addEventListener('click', (e) => {
+const editQuantity = document.querySelectorAll('[edit-quantity]');
+  if(editQuantity.length > 0) {
+    editQuantity.forEach(item => {
+        const dedecrease=item.querySelector('#decrease');
+        const input = item.querySelector('input');
+        dedecrease.addEventListener('click', (e) => {
         e.preventDefault();
         let value = parseInt(input.value);
         if(value > 1) {
@@ -10,7 +11,7 @@ if(editQuantity) {
         }
         input.value = value;
     });
-    const increase=editQuantity.querySelector('#increase');
+    const increase=item.querySelector('#increase');
     increase.addEventListener('click', (e) => {
         e.preventDefault();
         let value = parseInt(input.value);
@@ -34,6 +35,7 @@ if(editQuantity) {
             value = parseInt(input.max);
             input.value = value;
         }
+    });
     });
 }
 document.addEventListener('DOMContentLoaded', function() {
@@ -119,5 +121,34 @@ if(showAlert)
         showAlert.classList.remove("slide-in");
         showAlert.classList.add("slide-out");
     },parseInt(dataTime))
+    setTimeout(()=>{
+        showAlert.classList.add("hide");
+    },parseInt(dataTime)+800)
 }
 //end show alert
+//swiper
+document.addEventListener('DOMContentLoaded', function() {
+    new Swiper('.swiper-container', {
+      slidesPerView: 4,
+      spaceBetween: 20,
+      loop: true,
+      autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      breakpoints: {
+        480: { slidesPerView: 1 },
+        640: { slidesPerView: 2 },
+        768: { slidesPerView: 3 },
+        1024: { slidesPerView: 4 }
+      }
+    });
+  });
