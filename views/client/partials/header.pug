@@ -1,50 +1,65 @@
 include ../mixins/sub-menu.pug
 header.header
-  .container
-    .row.align-items-center
-      .col-3
-        .inner-logo
-          a(href="/")
-            img(src="/images/logo.png", alt="Logo")
-      .col-9
-        .inner-menu
-          ul.nav-menu
-            li.nav-item
-              a.nav-link(href="/")
-                i.fas.fa-home
-                span Trang chủ
-            li.nav-item.sub-menu
-              -const patchProduct="/product"
-              a.nav-link(href=patchProduct)
-                i.fas.fa-shopping-bag
-                span Sản phẩm
-              +sub-menu(layoutCategories,patchProduct)
-            li.nav-item.search-nav-item
-              a.nav-link.search-toggle(href="javascript:void(0)")
-                i.fas.fa-search
-                span Tìm kiếm
-              .search-form
-                form(action="/search" method="GET" id="form-search")
-                  .search-input-group
-                    input(
-                      type="text"
-                      name="keyword"
-                      placeholder="Nhập từ khóa tìm kiếm..."
-                      autocomplete="off"
-                    )
-                    button.search-btn(type="submit")
-                      i.fas.fa-search
-            li.nav-item
-              a.nav-link(href="/cart")
-                i.fas.fa-shopping-cart
-                span Giỏ hàng
-                if(miniCart.totalQuantity > 0 && miniCart.totalQuantity !== undefined)
-                  span.cart-count #{miniCart.totalQuantity}
-            li.nav-item
-              a.nav-link(href="/about")
-                i.fas.fa-info-circle
-                span Giới thiệu
-            li.nav-item
-              a.nav-link(href="/account")
-                i.fas.fa-user
-                span Tài khoản
+  .header-wrapper
+    .container
+      .row.align-items-center
+        .col-3
+          .inner-logo
+            a(href="/")
+              img(src="/images/logo.png", alt="Logo")
+        .col-9
+          .inner-menu
+            ul.nav-menu.d-flex.justify-content-between.align-items-center.flex-nowrap
+              li.nav-item
+                a.nav-link(href="/")
+                  i.fas.fa-home
+                  span Trang chủ
+              li.nav-item.sub-menu
+                -const patchProduct="/product"
+                a.nav-link(href=patchProduct)
+                  i.fas.fa-shopping-bag
+                  span Sản phẩm
+                +sub-menu(layoutCategories,patchProduct)
+              li.nav-item.search-nav-item
+                a.nav-link.search-toggle(href="javascript:void(0)")
+                  i.fas.fa-search
+                  span Tìm kiếm
+                .search-form
+                  form(action="/search" method="GET" id="form-search")
+                    .search-input-group
+                      input(
+                        type="text"
+                        name="keyword"
+                        placeholder="Nhập từ khóa tìm kiếm..."
+                        autocomplete="off"
+                      )
+                      button.search-btn(type="submit")
+                        i.fas.fa-search
+              li.nav-item
+                a.nav-link(href="/cart")
+                  i.fas.fa-shopping-cart
+                  span Giỏ hàng
+                  if(miniCart.totalQuantity > 0 && miniCart.totalQuantity !== undefined)
+                    span.cart-count #{miniCart.totalQuantity}
+              li.nav-item
+                a.nav-link(href="/about")
+                  i.fas.fa-info-circle
+                  span Giới thiệu
+              if(user)
+                li.nav-item
+                  a.nav-link(href="/account")
+                    i.fas.fa-user
+                    span Tài khoản
+                li.nav-item
+                  a.nav-link(href="/user/logout")
+                    i.fas.fa-sign-out-alt
+                    span Đăng xuất
+              else
+                li.nav-item
+                  a.nav-link(href="/user/register")
+                    i.fas.fa-user-plus
+                    span Đăng ký
+                li.nav-item
+                  a.nav-link(href="/user/login")
+                    i.fas.fa-sign-in-alt
+                    span Đăng nhập

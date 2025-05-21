@@ -34,15 +34,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //[express-flash] để hiển thị thông báo nhanh 
 //[cookie-parser]giúp phân tích cookie từ client gửi lên và gán vào req.cookies
 //[express-session] để lưu dữ liệu tạm 
-app.use(cookieParser('hentaivn'));
-app.use(session({
-    secret: process.env.SESSION_SECRET, // nên lưu trong biến môi trường .env
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 24 // session tồn tại 1 ngày
-    }
-  }));
+nên dùng JWT
 app.use(flash());
 //END
 //[Tinymce]

@@ -85,7 +85,7 @@ module.exports.patchEdit = async (req, res) => {
                 req.body.password = await argon2.hash(req.body.password);
             } 
             else {
-                delete req.body.password; // Xóa password khỏi đối tượng nếu không có giá trị mới
+                delete req.body.password; // Xóa password khỏi đối tượng req.body nếu không có giá trị mới
             }
             await AccountModel.updateOne({ _id: req.params.id }, req.body);
             req.flash('info', 'Cập nhật tài khoản thành công');

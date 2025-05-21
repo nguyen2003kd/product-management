@@ -1,24 +1,36 @@
 /* Header */
 .header {
+    width: 100%;
     background: #ffffff;
     padding: 15px 0;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 999;
-}
-
-.header .inner-logo img {
+  }
+  
+  /* WRAPPER DÙNG ĐỂ CANH GIỮA */
+  .header-wrapper {
+    max-width: 1200px; /* hoặc 1140px tùy layout */
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+  
+  /* LOGO */
+  .header .inner-logo img {
     max-height: 50px;
     max-width: 100%;
     transition: transform 0.3s ease;
-}
-
-.header .inner-logo img:hover {
+  }
+  
+  .header .inner-logo img:hover {
     transform: scale(1.05);
-}
-
-.header .inner-menu .nav-menu {
+  }
+  
+  /* MENU */
+  .header .inner-menu .nav-menu {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -27,13 +39,13 @@
     justify-content: flex-end;
     flex-wrap: wrap;
     gap: 10px;
-}
-
-.header .inner-menu .nav-item {
+  }
+  
+  .header .inner-menu .nav-item {
     position: relative;
-}
-
-.header .inner-menu .nav-link {
+  }
+  
+  .header .inner-menu .nav-link {
     color: #333;
     text-decoration: none;
     padding: 8px 15px;
@@ -43,23 +55,24 @@
     gap: 8px;
     transition: all 0.3s ease;
     font-weight: 500;
-}
-
-.header .inner-menu .nav-link i {
+  }
+  
+  .header .inner-menu .nav-link i {
     font-size: 1.1em;
     transition: transform 0.3s ease;
-}
-
-.header .inner-menu .nav-link:hover {
+  }
+  
+  .header .inner-menu .nav-link:hover {
     background: #f8f9fa;
     color: #007bff;
-}
-
-.header .inner-menu .nav-link:hover i {
+  }
+  
+  .header .inner-menu .nav-link:hover i {
     transform: translateY(-2px);
-}
-
-.header .inner-menu .cart-count {
+  }
+  
+  /* GIỎ HÀNG - BADGE */
+  .header .inner-menu .cart-count {
     position: absolute;
     top: -5px;
     right: -5px;
@@ -69,32 +82,43 @@
     padding: 2px 6px;
     border-radius: 10px;
     font-weight: bold;
-}
-
-@media (max-width: 991px) {
+  }
+  
+  /* RESPONSIVE */
+  @media (max-width: 991px) {
     .header .inner-menu .nav-menu {
-        justify-content: center;
-        margin-top: 15px;
+      justify-content: center;
+      margin-top: 15px;
     }
-    
+  
     .header .inner-logo {
-        text-align: center;
+      text-align: center;
     }
-}
-
-@media (max-width: 767px) {
+  }
+  
+  @media (max-width: 767px) {
     .header .inner-menu .nav-link span {
-        display: none;
+      display: none;
     }
-    
+  
     .header .inner-menu .nav-link {
-        padding: 8px;
+      padding: 8px;
     }
-    
+  
     .header .inner-menu .nav-link i {
-        font-size: 1.3em;
+      font-size: 1.3em;
     }
-}
+  }
+  .nav-menu {
+    width: 100%;
+    gap: 24px; /* or any spacing you like */
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+  }
+  .nav-menu .nav-item {
+    white-space: nowrap;
+  }
 /* End Header */
 
 /* Footer */
@@ -1642,3 +1666,17 @@
     font-size: 1rem;
     padding: 0.75rem 0;
   }
+/* register */
+.register-page .form-control {
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+  .register-page .btn-primary {
+    font-size: 1.1rem;
+    padding: 0.75rem 0;
+  }
+  .register-page h3 {
+    font-size: 1.5rem;
+  }
+
+
