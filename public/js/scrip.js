@@ -211,3 +211,35 @@ if (editQuantity.length > 0) {
   });
 }
 //end update cart quantity
+// resend OTP
+const countdown = () => {
+  let countdown = 10;
+  const countdownDiv = document.getElementById('countdown');
+  const resendBtn = document.getElementById('resendBtn');
+
+  countdownDiv.style.display = 'inline-block';
+  resendBtn.style.display = 'none';
+
+  const interval = setInterval(() => {
+    countdown--;
+    if (countdown > 0) {
+      countdownDiv.textContent = `Gửi lại mã xác thực trong ${countdown} giây`;
+    } else {
+      clearInterval(interval);
+      countdownDiv.style.display = 'none';
+      resendBtn.style.display = 'inline-block';
+    }
+  }, 1000);
+}
+
+document.getElementById('resendBtn')?.addEventListener('click', () => {
+  // Gửi request POST đến server để tạo lại OTP
+  fetch('/user/resend-otp', { method: 'POST' })
+    .then(() => {
+      alert('Đã gửi lại mã OTP!');
+      countdown(); // Gọi lại khi người dùng ấn "Gửi lại"
+    });
+});
+
+// Gọi khi trang được load để bắt đầu đếm ngược ban đầu
+window.addEventListener('DOMContentLoaded', countdown);

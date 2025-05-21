@@ -6,4 +6,11 @@ router.post("/register", userValidate.registerPost, userController.registerPost)
 router.get("/login", userController.login);
 router.post("/login", userValidate.loginPost, userController.loginPost);
 router.get("/logout", userController.logout);
+router.get("/forgot-password", userController.forgotPassword);
+router.post("/forgot-password", userValidate.forgotPasswordPost, userController.forgotPasswordPost);
+router.get("/otp-authentication", userController.otpAuthentication);
+router.post("/otp-authentication", userValidate.otpAuthenticationPost, userController.otpAuthenticationPost);
+router.post("/resend-otp", userController.resendOTP);
+router.get("/reset-password", userController.resetPassword);
+router.post("/reset-password", userValidate.resetPasswordPost, userController.resetPasswordPost);
 module.exports = router;

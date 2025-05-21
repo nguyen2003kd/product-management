@@ -1,0 +1,17 @@
+extends ../../layout/user.pug
+include ../../mixins/flash-messages.pug
+block main
+  .container.register-page.my-5
+    .row.justify-content-center
+      .col-lg-5.col-md-7
+        .bg-white.p-4.rounded.shadow-sm
+          h3.text-center.font-weight-bold.mb-4 Quên mật khẩu
+          +flashMessage()
+          +flashMessageError()
+          form(action="/user/otp-authentication" method="POST")
+            .form-group
+              label.font-weight-bold(for="otp") Mã xác thực
+              input#otp.form-control(type="text", name="otp", placeholder="Nhập mã xác thực", required)
+              span#countdown Gửi lại mã xác thực trong 10 giây
+              button#resendBtn.btn.btn-primary.btn-block.font-weight-bold(type="button", style="display: none;") Gửi lại mã OTP
+            button.btn.btn-primary.btn-block.font-weight-bold(type="submit") Gửi mail xác thực
