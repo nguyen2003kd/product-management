@@ -2,6 +2,7 @@ const User = require("../../models/user.model");
 const forgotPassword = require("../../models/forgot-password.model");
 const generateTimeBasedOTP = require("../../helpers/generate-time-based-otp");
 const argon2 = require("argon2");
+const sendMail = require("../../helpers/sendmail");
 module.exports.register = (req, res) => {
     res.render("client/pages/user/register.pug", {
         pageTitle: "Đăng ký"
@@ -79,6 +80,7 @@ module.exports.forgotPasswordPost = async (req, res) => {
         await forgotPassword.deleteOne({email:user.email});
     }
     const forgotPasswords = await forgotPassword.create(objOTP);
+    await sendMail.sendMail(objOTP.email, objOTP.otp);
     req.session.forgotPasswordOTP = forgotPasswords;
     res.render("client/pages/user/otp-authentication.pug");
 };
@@ -108,6 +110,7 @@ module.exports.resendOTP = async (req, res) => {
         await forgotPassword.deleteOne({email:req.session.forgotPasswordOTP.email});
     }
     await forgotPassword.create(objOTP);
+    await sendMail.sendMail(objOTP.email, objOTP.otp);
     res.render("client/pages/user/otp-authentication.pug");
 }
 //[GET] /reset-password
@@ -121,14 +124,15 @@ module.exports.resetPasswordPost = async (req, res) => {
     const user = await User.findOne({ email: req.session.forgotPasswordOTP.email ,deleted:false});
     if (!user) {
         req.flash("error", "Email không tồn tại");  
-        return res.redirect("client/pages/user/reset-password.pug");
+        return res.redirect("/user/forgot-password");
     }
-    if(!await argon2.verify(user.password, req.body.password)){
+    if(req.body.password !== req.body.confirmPassword){
         req.flash("error", "Mật khẩu không chính xác");
-        return res.redirect("client/pages/user/reset-password.pug");
+        return res.redirect("/user/forgot-password");
     }
     user.password = await argon2.hash(req.body.password);
     await user.save();
+    delete req.session.forgotPasswordOTP;
     req.flash("info", "Đặt lại mật khẩu thành công");
     res.redirect("/user/login");
 }
