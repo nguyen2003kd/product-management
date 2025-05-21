@@ -1,0 +1,22 @@
+extends ../../layout/default.pug
+
+block main
+  .container.order-success-page.my-5
+    .row.justify-content-center
+      .col-lg-6.col-md-8
+        .bg-white.p-5.rounded.shadow-sm.text-center
+          i.fas.fa-check-circle.text-success.display-3.mb-3
+          h2.font-weight-bold.mb-3 Đặt hàng thành công!
+          p.text-muted.mb-4 Cảm ơn bạn đã mua sắm tại <span class="font-weight-bold text-primary">Shop Online của chúng tôi</span>.
+          .order-info.text-left.d-inline-block.mt-3.mb-4
+            p.mb-2 Mã đơn hàng: <span class="font-weight-bold text-dark">#{order._id}</span>
+            p.mb-2 Ngày đặt hàng: <span class="font-weight-bold text-dark">#{moment(order.createdAt).format('DD/MM/YYYY')}</span>
+            p.mb-2 Người nhận: <span class="font-weight-bold text-dark">#{order.userInfo.fullName}</span>
+            p.mb-2 Địa chỉ: <span class="font-weight-bold text-dark">#{order.userInfo.address}</span>
+            p.mb-2 Số điện thoại: <span class="font-weight-bold text-dark">#{order.userInfo.phone}</span>
+            p.mb-2 Tổng tiền: <span class="font-weight-bold text-danger">#{totalPrice}đ</span>
+            p.mb-2 Trạng thái: <span class="badge badge-success">Đã thanh toán</span>
+          .d-flex.justify-content-center
+            a.btn.btn-outline-primary.mr-2(href="/") Về trang chủ
+            a.btn.btn-primary.ml-2(href="/account/orders/#{order._id}") Xem chi tiết đơn hàng
+

@@ -1,0 +1,73 @@
+extends ../../layout/default.pug
+include ../../mixins/flash-messages.pug
+block main
+  .container.cart-page.my-5
+    .row.justify-content-center
+      .col-lg-6.col-md-10
+        .cart-items.bg-white.p-4.rounded.shadow-sm.mb-4
+              h4.mb-4.font-weight-bold Giỏ hàng của bạn
+              +flashMessage()
+              //- Cart Item Example
+              each item of cartDetail.products
+                .cart-item.d-flex.align-items-center.justify-content-between.py-3.border-bottom
+                  .d-flex.align-items-center
+                    img.cart-item-img.cart-thumbnail(src=item.productInfo.thumbnail, alt=item.productInfo.title, width="80")
+                    .ml-3
+                      a.cart-item-title.big-title(href=`/product/detail/${item.productInfo.slug}`) #{item.productInfo.title}
+                  .d-flex.align-items-center
+                    if item.productInfo.discountPercentage > 0
+                      .cart-item-price.text-danger.font-weight-bold.mr-3 #{item.productInfo.newPrice}$
+                      del.text-muted.small #{item.productInfo.price}$
+                    .cart-item-qty.d-flex.align-items-center.ml-4
+                      span.form-control.form-control-sm.text-center.mx-1 #{item.quantity}
+                //- Cart Subtotal
+                .cart-subtotal.d-flex.justify-content-end.mt-3
+                  span.text-muted Tạm tính (#{item.quantity}sản phẩm):
+                  span.font-weight-bold.ml-2 #{item.productInfo.newPrice * item.quantity}
+                .cart-summary.bg-white.p-4.rounded.shadow-sm
+                  h5.mb-3.font-weight-bold Thông tin đơn hàng
+                  hr
+                  //- Total
+                  .d-flex.justify-content-between.mb-2
+                    span.font-weight-bold Tổng tiền
+                    span.text-danger.font-weight-bold #{totalPrice}$
+      .col-lg-6
+        .bg-white.p-4.rounded.shadow-sm
+          h4.text-center.font-weight-bold.mb-4 Thông tin giao hàng
+          //- Error message
+          .alert.alert-danger.py-2.mb-4(role="alert")
+            i.fas.fa-exclamation-circle.mr-2
+            | Vui lòng nhập đầy đủ thông tin để tiếp tục bước tiếp theo
+          //- User Info
+          form(action="/checkout/order" method="POST")
+            .form-group.mb-3
+              label.font-weight-bold.d-block Thông tin người đặt
+            .form-row
+              .form-group.col-md-6.mb-3
+                input.form-control(type="text", name="name" placeholder="Họ và Tên")
+              .form-group.col-md-6.mb-3
+                input.form-control(type="text", name="phone" placeholder="Số điện thoại")
+            .mb-3
+              span.text-muted Hoặc 
+              a.text-primary(href="#") Đăng nhập
+              |  để lấy nhanh thông tin giao hàng
+            //- Delivery Method Tabs
+            .form-group.mb-3
+              label.font-weight-bold.d-block Chọn hình thức giao hàng
+              .btn-group.btn-group-toggle.d-flex.mb-3(data-toggle="buttons")
+                label.btn.btn-outline-primary.active.flex-fill
+                  input(type="radio", name="deliveryMethod", checked value="delivery") 
+                  | Giao tận nơi
+                label.btn.btn-outline-primary.flex-fill
+                  input(type="radio", name="deliveryMethod" value="pickup") 
+                  | Nhận tại siêu thị
+            //- Address
+            .form-group.mb-2
+              label.font-weight-bold.d-block Địa chỉ:
+              input.form-control(type="text", name="address" placeholder="Nhập địa chỉ (Tòa nhà, Số nhà, Tên đường,...) để gợi ý")
+            //- Other recipient
+            .form-group.form-check.mb-4
+              input.form-check-input(type="checkbox", id="otherReceiver")
+              label.form-check-label(for="otherReceiver") Người khác nhận hàng
+            //- Confirm Button
+            button.btn.btn-primary.btn-block.font-weight-bold(type="submit") Xác Nhận

@@ -118,13 +118,14 @@ block main
               .product-thumbnail
                 a(href=`/product/detail/${product.slug}`)
                   img(src=product.thumbnail, alt=product.title)
+                .overlay
                 .product-actions
-                  button.btn-action.btn-wishlist(title="Thêm vào yêu thích")
-                    i.far.fa-heart
-                  button.btn-action.btn-quickview(title="Xem nhanh")
+                  a.btn-action.btn-quickview(href=`/product/detail/${product.slug}` title="Xem nhanh")
                     i.fas.fa-eye
-                  button.btn-action.btn-cart(title="Thêm vào giỏ")
-                    i.fas.fa-shopping-cart
+                  form(action=`/cart/add/${product._id}` method="post")
+                    input(type="hidden" name="quantity" value="1")
+                    button.btn-action.btn-cart(type="submit" title="Thêm vào giỏ")
+                      i.fas.fa-shopping-cart
               .product-info
                 .product-category
                   if product.category && product.category.slug

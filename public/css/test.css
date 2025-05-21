@@ -1597,3 +1597,48 @@
 .cart-thumbnail:hover img {
     transform: scale(1.1);
 }
+/* checkout */
+.payment-page .form-control {
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+  .payment-page .btn-group .btn {
+    font-size: 1rem;
+    padding: 0.75rem 0;
+  }
+  .payment-page .btn-primary {
+    font-size: 1.1rem;
+    padding: 0.75rem 0;
+  }
+  .payment-page .alert {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+  .payment-page label.font-weight-bold {
+    font-size: 1rem;
+  }
+  .payment-page h4 {
+    font-size: 1.4rem;
+  }
+  .payment-page .custom-control-label {
+    font-size: 1rem;
+    padding-left: 2px;
+  }
+/* order success */
+.order-success-page .fa-check-circle {
+    font-size: 4rem;
+  }
+  .order-success-page h2 {
+    font-size: 2rem;
+  }
+  .order-success-page .order-info {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem 2rem;
+    font-size: 1.1rem;
+  }
+  .order-success-page .btn {
+    min-width: 150px;
+    font-size: 1rem;
+    padding: 0.75rem 0;
+  }

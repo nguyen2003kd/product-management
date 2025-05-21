@@ -3,6 +3,7 @@ const ProductCategory = require("../../models/product-catelogy.js");
 const getSubCategory = require("../../helpers/getsubcategory.js");
 const newPrice = require("../../helpers/newPrices.js");
 const findRootCategory = require("../../helpers/findrootcategory.js");
+//[GET] /product    
 module.exports.index = async (req, res) => {
     try {
         // Fetch products
@@ -77,7 +78,7 @@ module.exports.category = async(req, res) => {
         res.redirect(`/product`);
     }
 }
-
+//[GET] /product/:slug
 module.exports.detail=async(req,res)=>{
     try{
         let find={
@@ -86,6 +87,10 @@ module.exports.detail=async(req,res)=>{
             slug:req.params.slug
         }
         let product=await Product.findOne(find)
+        if(product){
+            product.views++;
+            await product.save();
+        }
         const category=await ProductCategory.findOne({_id:product.product_category_id})
         const rootCategory = await findRootCategory.findRootCategory(category._id);
         product=newPrice.newPrice(product)

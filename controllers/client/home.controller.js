@@ -2,6 +2,7 @@ const Product = require("../../models/product.model.js");
 const ProductCategory = require("../../models/product-catelogy.js");
 const creatTree = require('../../helpers/creatTree.js');
 const newPrices = require('../../helpers/newPrices.js');
+//[GET] /
 module.exports.index = async (req, res) => {
     try {
         // Fetch featured products with multiple sorting criteria

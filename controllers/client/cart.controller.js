@@ -1,6 +1,7 @@
 const cartModel = require("../../models/cart.model");
 const productModel = require("../../models/product.model");
 const newPrices = require("../../helpers/newPrices");
+//[GET] /cart
 module.exports.index = async (req, res) =>{
     let totalPrice = 0;
     const cartId = req.cookies.cartId;
@@ -21,6 +22,7 @@ module.exports.index = async (req, res) =>{
         totalPrice:totalPrice.toFixed(2)
     });
 }
+//[POST] /cart/add/:id
 module.exports.addToCart = async (req, res) =>{
     const quantity = parseInt(req.body.quantity);
     const productId = req.params.id;
@@ -46,6 +48,7 @@ module.exports.addToCart = async (req, res) =>{
     req.flash("info","Thêm vào giỏ hàng thành công");
     res.redirect(req.headers.referer || '/');
 }
+//[POST] /cart/delete/:id
 module.exports.deleteCart = async (req, res) =>{
     const productId = req.params.id;
     const cartId = req.cookies.cartId;
@@ -53,6 +56,7 @@ module.exports.deleteCart = async (req, res) =>{
     req.flash("info","Xoá sản phẩm khỏi giỏ hàng thành công");
     res.redirect(req.headers.referer || '/');
 }
+//[POST] /cart/update/:id
 module.exports.updateCart = async (req, res) =>{
     const productId = req.params.id;
     const quantity = req.params.quantity;

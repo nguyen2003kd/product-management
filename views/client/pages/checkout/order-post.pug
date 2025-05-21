@@ -1,0 +1,4 @@
+form(id="redirectForm", action=`/checkout/order-success/${orderId}`, method="POST")
+  input(type="hidden", name="orderId", value=orderId)
+script.
+  document.getElementById("redirectForm").submit();

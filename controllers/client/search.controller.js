@@ -1,6 +1,7 @@
 const productModel = require("../../models/product.model");
 const ProductCategory = require("../../models/product-catelogy.js");
 const newPrice = require("../../helpers/newPrices");
+//[GET] /search
 module.exports.index = async (req, res) => {
     const find = {
         title: { $regex: req.query.keyword, $options: "i" },
@@ -30,7 +31,7 @@ module.exports.index = async (req, res) => {
     }
     );
 }
-
+//[GET] /search/autocomplete
 // Add new autocomplete endpoint
 module.exports.autocomplete = async (req, res) => {
     try {
