@@ -1,0 +1,66 @@
+extends ../../layout/default.pug
+include ../../mixins/flash-messages.pug
+block main
+  .container.py-4
+    .row.justify-content-center
+      .col-md-8
+        .card.shadow-sm
+          .card-body
+            h1.card-title.text-center.mb-4 #{pageTitle}
+            +flashMessage()
+            +flashMessageError()
+            form(
+              action=`/user/edit/${user._id}?_method=PATCH`
+              method="POST"
+              id="form-create-product"
+              enctype="multipart/form-data")
+              .mb-3
+                label.form-label(for="fullname") Tên đầy đủ
+                input.form-control(
+                  type="text"
+                  id="fullname"
+                  name="fullname"
+                  required
+                  value=`${user.fullName}`
+                )
+              .mb-3
+                label.form-label(for="email") Email
+                input.form-control(
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  autocomplete="email"
+                  value=`${user.email}`
+                )
+              .mb-3
+                label.form-label(for="phone") Số điện thoại
+                input.form-control(
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  required
+                  value=`${user.phone}`
+                )
+              .mb-4
+                div(upload-image)
+                    label.form-label(for="avatar") Ảnh đại diện
+                    .d-flex.align-items-center.gap-3
+                        .flex-shrink-0
+                            img.img-thumbnail.rounded-circle(
+                                src=user.avatar
+                                style="width: 100px; height: 100px; object-fit: cover;"
+                                upload-image-preview
+                            )
+                        .flex-grow-1
+                            input.form-control(
+                                type="file"
+                                id="avatar"
+                                name="avatar"
+                                accept="image/*"
+                                upload-image-input
+                            )
+              .text-center
+                button.btn.btn-primary.btn-lg.px-5(
+                  type="submit"
+                ) Cập nhật thông tin

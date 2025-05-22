@@ -1,0 +1,88 @@
+extends ../../layout/default.pug
+include ../../mixins/flash-messages.pug
+block main
+  .container.py-4
+    .row
+      // Profile Card
+      .col-md-4.mb-4
+        .card.shadow-sm
+          .card-body.text-center
+            .profile-image.mb-3
+              +flashMessage()
+              +flashMessageError()
+              if user.avatar
+                img.rounded-circle.img-thumbnail(src=user.avatar alt=user.fullName style="width: 150px; height: 150px; object-fit: cover;")
+              else
+                .avatar-placeholder.rounded-circle.d-flex.align-items-center.justify-content-center.mx-auto(style="width: 150px; height: 150px; background-color: #e9ecef;")
+                  i.fas.fa-user.fa-3x.text-muted
+            h4.mb-2 #{user.fullName}
+            p.text-muted.mb-3
+              i.fas.fa-envelope.me-2
+              | #{user.email}
+            if user.phone
+              p.text-muted.mb-3
+                i.fas.fa-phone.me-2
+                | #{user.phone}
+            .d-grid.gap-2
+              a.user-info-link.btn.btn-primary(href=`/user/edit/${user._id}`)
+                i.fas.fa-edit.me-2
+                | Chỉnh sửa thông tin
+              button.btn.btn-outline-secondary(type="button" data-toggle="modal" data-target="#changePasswordModal")
+                i.fas.fa-key.me-2
+                | Đổi mật khẩu
+
+      // Account Information
+      .col-md-8
+        .card.shadow-sm.mb-4
+          .card-header.bg-white
+            h5.mb-0
+              i.fas.fa-user-circle.me-2
+              | Thông tin tài khoản
+          .card-body
+            .row.g-3
+              .col-md-6
+                .info-item
+                  label.text-muted.d-block Họ và tên
+                  p.mb-0.fw-bold #{user.fullName}
+              .col-md-6
+                .info-item
+                  label.text-muted.d-block Email
+                  p.mb-0.fw-bold #{user.email}
+              if user.phone
+                .col-md-6
+                  .info-item
+                    label.text-muted.d-block Số điện thoại
+                    p.mb-0.fw-bold #{user.phone}
+              if user.address
+                .col-md-6
+                  .info-item
+                    label.text-muted.d-block Địa chỉ
+                    p.mb-0.fw-bold #{user.address}
+              .col-md-6
+                .info-item
+                  label.text-muted.d-block Ngày tham gia
+                  p.mb-0.fw-bold #{user.createdAt ? new Date(user.createdAt).toLocaleDateString('vi-VN') : 'N/A'}
+
+    // Change Password Modal
+    #changePasswordModal.modal.fade(tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true")
+        .modal-dialog(role="document")
+            .modal-content
+                form(action=`/user/change-password/${user._id}?_method=PATCH` method="POST")
+                    .modal-header
+                        h5#changePasswordModalLabel.modal-title Đổi mật khẩu
+                        button.close(type="button" data-dismiss="modal" aria-label="Close")
+                            span(aria-hidden="true") ×
+                    .modal-body
+                        .form-group
+                            label(for="currentPassword") Mật khẩu hiện tại
+                            input#currentPassword.form-control(type="password" name="currentPassword" required)
+                        .form-group
+                            label(for="newPassword") Mật khẩu mới
+                            input#newPassword.form-control(type="password" name="newPassword" required)
+                        .form-group
+                            label(for="confirmPassword") Xác nhận mật khẩu mới
+                            input#confirmPassword.form-control(type="password" name="confirmPassword" required)
+                    .modal-footer
+                        button.btn.btn-secondary(type="button" data-dismiss="modal") Hủy
+                        button.btn.btn-primary(type="submit") Lưu thay đổi
+

@@ -83,7 +83,12 @@
     border-radius: 10px;
     font-weight: bold;
   }
-  
+.nav-link .rounded-circle,
+.nav-link .avatar-placeholder {
+  margin: 0;
+  border: none;
+  box-shadow: none;
+}
   /* RESPONSIVE */
   @media (max-width: 991px) {
     .header .inner-menu .nav-menu {
@@ -1678,5 +1683,100 @@
   .register-page h3 {
     font-size: 1.5rem;
   }
+/* my-account */
+.profile-image img, .avatar-placeholder {
+    border: 3px solid #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  .info-item {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background-color: #f8f9fa;
+  }
+  .stat-card {
+    transition: transform 0.2s;
+  }
+  .stat-card:hover {
+    transform: translateY(-5px);
+  }
+  .card {
+    border: none;
+    border-radius: 1rem;
+  }
+  .card-header {
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    border-radius: 1rem 1rem 0 0 !important;
+  }
+  .btn {
+    border-radius: 0.5rem;
+    padding: 0.5rem 1.5rem;
+  }
+  .btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+  }
+  .btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+  }
 
+/* edit user */
+.edit-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  }
 
+  .form-label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+  }
+
+  .custom-input {
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    padding: 10px 15px;
+    transition: border-color 0.3s ease;
+  }
+
+  .custom-input:focus {
+    border-color: #007bff;
+    box-shadow: none;
+  }
+
+  .avatar-group {
+    text-align: center;
+    margin: 20px 0;
+  }
+
+  .image-preview {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin-top: 15px;
+    border: 3px solid #007bff;
+  }
+
+  .custom-file-input {
+    border: 1px dashed #007bff;
+    padding: 10px;
+    border-radius: 6px;
+    background: #f8f9fa;
+  }
+
+  .custom-button {
+    padding: 12px 30px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+  }
+
+  .custom-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }

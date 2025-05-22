@@ -68,3 +68,21 @@ module.exports.resetPasswordPost = (req, res, next) => {
     }
     next();
 }
+module.exports.changePasswordPost = (req, res, next) => {
+    if (!req.body.currentPassword) {
+        req.flash('error', 'vui lòng điền mật khẩu hiện tại !');
+        res.redirect(req.headers.referer || '/');
+        return;
+    }
+    else if (!req.body.newPassword) {
+        req.flash('error', 'vui lòng điền mật khẩu mới !');
+        res.redirect(req.headers.referer || '/');
+        return;
+    }
+    else if (!req.body.confirmPassword) {
+        req.flash('error', 'vui lòng điền xác nhận mật khẩu mới !');
+        res.redirect(req.headers.referer || '/');
+        return;
+    }
+    next();
+}

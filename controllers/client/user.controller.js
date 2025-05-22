@@ -124,15 +124,70 @@ module.exports.resetPasswordPost = async (req, res) => {
     const user = await User.findOne({ email: req.session.forgotPasswordOTP.email ,deleted:false});
     if (!user) {
         req.flash("error", "Email không tồn tại");  
-        return res.redirect("/user/forgot-password");
+        return res.redirect("/user/reset-password");
     }
     if(req.body.password !== req.body.confirmPassword){
         req.flash("error", "Mật khẩu không chính xác");
-        return res.redirect("/user/forgot-password");
+        return res.redirect("/user/reset-password");
     }
     user.password = await argon2.hash(req.body.password);
     await user.save();
     delete req.session.forgotPasswordOTP;
     req.flash("info", "Đặt lại mật khẩu thành công");
     res.redirect("/user/login");
+}
+//[GET] /info
+module.exports.info = async(req, res) => {
+    const user = await User.findOne({ _id: req.session.user, deleted: false });
+    if (!user) {
+        req.flash("error", "Tài khoản không tồn tại");
+        return res.redirect("/user/login");
+    }
+    res.render("client/pages/user/info.pug", {
+        pageTitle: "Thông tin tài khoản",
+        user: user
+    });
+}
+//[GET] /edit/:id
+module.exports.edit = async(req, res) => {
+    const user = await User.findOne({ _id: req.params.id, deleted: false });
+    res.render("client/pages/user/edit-user.pug", {
+        pageTitle: "Chỉnh sửa thông tin tài khoản",
+        user: user
+    });
+}
+//[POST] /edit/:id
+module.exports.editPost = async(req, res) => {
+    console.log(req.body);
+    const objUser = {
+        deleted:false,
+        _id: {$ne:req.params.id},
+        email: req.body.email
+    }
+    const userExist = await User.findOne(objUser);
+    if(userExist){
+        req.flash("error", "Email đã tồn tại");
+        return res.redirect("/user/edit/"+req.params.id);
+    }
+    else{
+        await User.updateOne({ _id: req.params.id }, { $set: req.body });
+        req.flash("info", "Cập nhật thông tin thành công");
+        res.redirect("/user/info");
+    }
+}
+//[PATCH] /change-password/:id
+module.exports.changePasswordPost = async(req, res) => {
+    const user = await User.findOne({ _id: req.params.id, deleted: false });
+    if(!await argon2.verify(user.password, req.body.currentPassword)){
+        req.flash("error", "Mật khẩu hiện tại không chính xác");
+        return res.redirect("/user/info");
+    }
+    if(req.body.newPassword !== req.body.confirmPassword){
+        req.flash("error", "Mật khẩu không chính xác");
+        return res.redirect("/user/info");
+    }
+    user.password = await argon2.hash(req.body.newPassword);
+    await User.updateOne({ _id: req.params.id }, { $set: { password: user.password } });
+    req.flash("info", "Đổi mật khẩu thành công");
+    res.redirect("/user/info");
 }

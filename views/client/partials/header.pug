@@ -47,9 +47,18 @@ header.header
                   span Giới thiệu
               if(user)
                 li.nav-item
-                  a.nav-link(href="/account")
-                    i.fas.fa-user
-                    span Tài khoản
+                  a.nav-link.d-flex.align-items-center(href="/user/info" style="padding: 0 8px;")
+                    if user.avatar
+                      img.rounded-circle(
+                        src=user.avatar 
+                        alt=user.fullName 
+                        style="width: 48px; height: 48px; object-fit: cover;"
+                      )
+                    else
+                      .avatar-placeholder.rounded-circle.d-flex.align-items-center.justify-content-center(
+                        style="width: 48px; height: 48px; background-color: #e9ecef;"
+                      )
+                        i.fas.fa-user.text-muted(style="font-size: 24px;")
                 li.nav-item
                   a.nav-link(href="/user/logout")
                     i.fas.fa-sign-out-alt

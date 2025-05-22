@@ -10,8 +10,12 @@ block main
           +flashMessageError()
           form(action="/user/otp-authentication" method="POST")
             .form-group
+              label.font-weight-bold(for="email") Email
+              input#email.form-control(type="email", name="email", placeholder="Nhập email", required)
+            .form-group
               label.font-weight-bold(for="otp") Mã xác thực
               input#otp.form-control(type="text", name="otp", placeholder="Nhập mã xác thực", required)
               span#countdown Gửi lại mã xác thực trong 10 giây
-              button#resendBtn.btn.btn-primary.btn-block.font-weight-bold(type="button", style="display: none;") Gửi lại mã OTP
-            button.btn.btn-primary.btn-block.font-weight-bold(type="submit") Gửi mail xác thực
+            .form-group
+              button#resendBtn.btn.btn-warning.btn-block.font-weight-bold(type="button", style="display: none;") Gửi lại mã OTP
+            button.btn.btn-success.btn-block.font-weight-bold(type="submit") Gửi mail xác thực

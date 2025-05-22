@@ -243,3 +243,62 @@ document.getElementById('resendBtn')?.addEventListener('click', () => {
 
 // Gọi khi trang được load để bắt đầu đếm ngược ban đầu
 window.addEventListener('DOMContentLoaded', countdown);
+//display image
+const display=document.querySelector('[upload-image]')
+if(display){
+    const inputImage=display.querySelector('[upload-image-input]')
+    const uploadImage=display.querySelector('[upload-image-preview]');
+    inputImage.addEventListener("change",(e)=>{
+        const file=e.target.files[0]
+        if(file){
+            uploadImage.src=URL.createObjectURL(file)
+        }
+
+    })
+}
+//end display image
+// Change Password Modal
+// document.getElementById('changePasswordForm').addEventListener('submit', async function(e) {
+//   e.preventDefault();
+//   const formData = new FormData(this);
+//   const data = Object.fromEntries(formData.entries());
+  
+//   try {
+//     const response = await fetch('/user/change-password', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify(data)
+//     });
+    
+//     const result = await response.json();
+    
+//     if (response.ok) {
+//       // Show success message
+//       const successAlert = document.createElement('div');
+//       successAlert.className = 'alert alert-success alert-dismissible fade show';
+//       successAlert.innerHTML = `
+//         ${result.message}
+//         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+//       `;
+//       document.querySelector('.container').insertBefore(successAlert, document.querySelector('.row'));
+      
+//       // Close modal and reset form
+//       const modal = bootstrap.Modal.getInstance(document.getElementById('changePasswordModal'));
+//       modal.hide();
+//       this.reset();
+//     } else {
+//       // Show error message
+//       const errorAlert = document.createElement('div');
+//       errorAlert.className = 'alert alert-danger alert-dismissible fade show';
+//       errorAlert.innerHTML = `
+//         ${result.message}
+//         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+//       `;
+//       document.querySelector('.container').insertBefore(errorAlert, document.querySelector('.row'));
+//     }
+//   } catch (error) {
+//     console.error('Error:', error);
+//   }
+// });
