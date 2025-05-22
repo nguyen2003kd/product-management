@@ -39,7 +39,7 @@ header.header
                 a.nav-link(href="/cart")
                   i.fas.fa-shopping-cart
                   span Giỏ hàng
-                  if(miniCart.totalQuantity > 0 && miniCart.totalQuantity !== undefined)
+                  if(miniCart && miniCart.totalQuantity > 0 && miniCart.totalQuantity !== undefined)
                     span.cart-count #{miniCart.totalQuantity}
               li.nav-item
                 a.nav-link(href="/about")

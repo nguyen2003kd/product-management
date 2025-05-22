@@ -1,5 +1,6 @@
 const User = require("../../models/user.model");
 const forgotPassword = require("../../models/forgot-password.model");
+const cartModel = require("../../models/cart.model");
 const generateTimeBasedOTP = require("../../helpers/generate-time-based-otp");
 const argon2 = require("argon2");
 const sendMail = require("../../helpers/sendmail");
@@ -47,6 +48,16 @@ module.exports.loginPost = async (req, res) => {
         return res.redirect("/user/login");
     }
     else{
+        const cart = await cartModel.findOne({userId:user._id});
+        if(cart){
+            res.cookie("cartId", cart._id, {
+                expires: new Date(Date.now() + 5 * 30 * 24 * 60 * 60 * 1000), // hoặc maxAge
+            });
+
+        }
+        else{
+            const carts = await cartModel.updateOne({_id:req.cookies.cartId},{$set:{userId:user._id}});
+        }
         req.session.user = user._id;
         req.flash("info", "Đăng nhập thành công");
         res.redirect("/");
@@ -54,7 +65,8 @@ module.exports.loginPost = async (req, res) => {
 };
 //[GET] /logout
 module.exports.logout = (req, res) => {
-    req.session.destroy();
+    res.clearCookie("cartId");
+    delete req.session.user;
     delete res.locals.user;
     res.redirect("/");
 };

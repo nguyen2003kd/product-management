@@ -24,7 +24,7 @@ module.exports.postLogin = async (req, res) => {
             return res.redirect('/admin/auth');
         }
         if (await argon2.verify(account.password, password)) {
-            req.session.user = account;
+            req.session.admins = account;
             // res.cookie('tkacc',account.token,)
             req.flash('info', 'Đăng nhập thành công');
             res.redirect('/admin/dashboard');
@@ -40,14 +40,9 @@ module.exports.postLogin = async (req, res) => {
 }
 // [GET] /admin/auth/logout
 module.exports.logout = (req, res) => {
-    req.session.destroy((err) => {
-        if (err) {
-            console.log(err);
-            return res.status(500).send('Server Error');
-        }
-        res.clearCookie('tkacc')
-        res.redirect('/admin/auth');
-    });
+    delete req.session.admins;
+    res.clearCookie('tkacc')
+    res.redirect('/admin/auth');
 }
 
 
